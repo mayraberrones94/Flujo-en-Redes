@@ -1,6 +1,6 @@
 from rep2 import Grafo
 p = Grafo()
-p.puntos(50)
-p.aristas(0.1)
+p.puntos(10)
+p.aristas(0.5)
 p.imprimir("nodos.dat")
-p.grafica("nodos.plot")
+p.grafica(1,0)
