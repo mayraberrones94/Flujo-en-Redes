@@ -38,9 +38,6 @@ class Grafo:
 
 	def imprimir(self, arch):
 		self.archivo = arch
-		#for k in range(len(self.Ari)):
-			#
-
 		with open (self.archivo, "w") as salida:
 			for nodo in range(self.n):
 				print(self.P[nodo][0], self.P[nodo][1], (random() * 10),  file = salida)
@@ -49,12 +46,14 @@ class Grafo:
 	#di = 1 es simple
 	#di = 2 es dirigido
 	#di = 3 es ponderado
+	#di = 4 es dirigido y ponderado
 
 	def grafica (self, di):
 		assert self.archivo is not None
 		with open("nodos.plot", 'w') as salida: 
 			print('set term png', file = salida)
 			print('set output "nodos.png"', file = salida)
+	
 			print('set size square', file = salida)
 			print('set key off', file = salida)
 			print ('set xrange [-.1:1.1]', file = salida)
@@ -71,6 +70,9 @@ class Grafo:
 					print('set arrow', id, 'from', self.Ari[i][0], ',', self.Ari[i][1], 'to', self.Ari[i][2], ',', self.Ari[i][3], 'nohead filled lw 1', file = salida)
 					print('set label', "'", int(self.pesos[i][0]), "'", 'at', self.pesos[i][1], ',', self.pesos[i][2], file = salida)
 					id +=1
-
-			print('plot "nodos.dat" using 1:2:3 with points pt 7 lc var ps 2 ', file = salida)
+				elif di is 4:
+					print('set arrow', id, 'from', self.Ari[i][0], ',', self.Ari[i][1], 'to', self.Ari[i][2], ',', self.Ari[i][3], 'head filled lw 1', file = salida)
+					print('set label', "'", int(self.pesos[i][0]), "'", 'at', self.pesos[i][1], ',', self.pesos[i][2], file = salida)
+					id +=1
+			print('plot "nodos.dat" using 1:2:3 with points pt 8 lc var ps 2 ', file = salida)
 			print('quit()', file =  salida)
