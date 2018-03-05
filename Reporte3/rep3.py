@@ -88,7 +88,22 @@ class Grafo:
 		d = {}
 		for v in self.P:
 			d[(v, v)] = 0
-			for u in self.vecinos[]:
+			for u in self.vecinos[v]:
+				d[(v, u)] = self.E[(v, u)]
+		for intermedio in self.P:
+			for desde in self.P:
+				for hasta in self.P:
+					di = None
+					if (desde, intermedio) in d:
+						di = d[(desde, intermedio)]
+					ih = None
+					if (intermedio, hasta) in d:
+						ih = d[(intermedio, hasta)]
+					if di is not None and ih is not None:
+						c = di + ih
+						if (desde, hasta) not in d or c < d[(desde, hasta)]:
+							d[(desde, hasta)] = c
+		return d
 
 
 
