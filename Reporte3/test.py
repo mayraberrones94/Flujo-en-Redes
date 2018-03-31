@@ -7,8 +7,10 @@ print(p.vecinos[1])
 print(p.V)
 print(p.E)
 
+p.imprimir("nodos.dat")
+p.grafica(1)
 #g2 = p.complemento()
 #print(g2.E)
 
-p.floyd_warshall()
+#p.floyd_warshall()
 

@@ -10,7 +10,8 @@ class Grafo:
 		self.P = []
 		self.nod2 = []
 		self.nod3 = []
-		self.A = []
+		self.A = [] #para las aristas
+		self.archivo = None # donde guardo mis puntos
 
 	def puntos (self, num):
 		self.n = num
@@ -38,7 +39,7 @@ class Grafo:
 					self.E[(u, v)] = self.E[(u,v)] = peso #esto lo puedes quitar luego para hacer los ponderados
 					self.vecinos[v].add(u)
 					self.vecinos[u].add(v)
-					#self.A.append((x1, y1, x2, y2))
+					self.A.append((x1, y1, x2, y2, u, v))
 
 	def complemento (self):
 		comp = Grafo()
@@ -47,6 +48,46 @@ class Grafo:
 				if v != w and (v, w) not in self.E:
 					comp.conecta(v, w, 1)
 			return comp
+
+	def imprimir(self, arch):
+		self.archivo = arch
+		with open (self.archivo, "w") as salida:
+			for nodo in range(self.n):
+				print(self.P[nodo][0], self.P[nodo][1], (random() * 10), file = salida) #lo de random es nadamas para darle colorsitos si quieres
+
+#di = 1 es simple
+#di = 2 es dirigido
+#di = 3 es ponderado
+
+	def grafica(self, di, eps = True):
+		assert self.archivo is not None
+		with open ("nodos.plot", 'w') as salida:
+			if eps:
+				print("set term postscript color eps", file = salida)
+				print('set output "nodos.eps"', file = salida)
+			else:
+				print('set term png', file = salida)
+				print('set output "nodos.png"', file = salida)
+
+			print('set size square', file = salida)
+			print('set key off', file = salida)
+			print('set xrange [-.1:1.1]', file = salida)
+			print('set yrange [-.1:1.1]', file = salida)
+
+			id = 1
+			for i in range(len(self.A)):
+				if di is 2:
+					print('set arrow', id, 'from', self.A[i][0], ',', self.A[i][1], 'to', self.A[i][2], ',', self.A[i][3], 'head filled lw 1', file = salida)
+					id +=1
+				elif di is 1:
+					print('set arrow', id, 'from', self.A[i][0], ',', self.A[i][1], 'to', self.A[i][2], ',', self.A[i][3], 'nohead filled lw 1', file = salida)
+					id +=1
+				#elif di is 3:
+			print('plot "nodos.dat" using 1:2:3 with points pt 7 lc var ps 2', file = salida)
+			print('quit()', file = salida)
+
+
+
 
 	def floyd_warshall (self): 
 		d = {}
