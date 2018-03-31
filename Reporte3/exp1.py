@@ -1,0 +1,73 @@
+from random import random
+
+class Grafo:
+
+	def __init__(self):
+		self.V = set()
+		self.E = dict()
+		self.vecinos = dict()
+		self.n = None
+		self.P = []
+		self.nod2 = []
+		self.nod3 = []
+		self.A = []
+
+	def puntos (self, num):
+		self.n = num
+		for nodo in range (self.n):
+			x = random()
+			y = random()
+			self.P.append((x, y, nodo))
+
+	def agrega (self, v):
+		self.V.add(v)
+		if not v in self.vecinos:
+			self.vecinos[v] = set()
+
+	def conecta (self, prob, peso = 1):
+		for i in range(self.n - 1):
+			self.nod2.append(self.P[i])
+		for i in range(self.n):
+			self.nod3.append(self.P[i])
+		for(x1, y1, u) in self.nod2:
+			del self.nod3[0]
+			for(x2, y2, v) in self.nod3:
+				if random() < prob:
+					self.agrega(u)
+					self.agrega(v)
+					self.E[(u, v)] = self.E[(u,v)] = peso #esto lo puedes quitar luego para hacer los ponderados
+					self.vecinos[v].add(u)
+					self.vecinos[u].add(v)
+					#self.A.append((x1, y1, x2, y2))
+
+	def complemento (self):
+		comp = Grafo()
+		for v in self.V:
+			for w in self.V:
+				if v != w and (v, w) not in self.E:
+					comp.conecta(v, w, 1)
+			return comp
+
+	def floyd_warshall (self): 
+		d = {}
+		for v in self.V:
+			d[(v, v)] = 0 # distancia reflexiva es cero
+			for u in self.vecinos[v]: # para vecinos, la distancia es el peso
+				d[(v, u)] = self.E[(v, u)]
+		for intermedio in self.V:
+			for desde in self.V:
+				for hasta in self.V:
+					di = None
+					if (desde, intermedio) in d:
+						di = d[(desde, intermedio)]
+					ih = None
+					if (intermedio, hasta) in d:
+						ih = d[(intermedio, hasta)]
+					if di is not None and ih is not None:
+						c = di + ih # largo del camino via "i"
+						if (desde, hasta) not in d or c < d[(desde, hasta)]:
+							d[(desde, hasta)] = c # mejora al camino actual
+		return d
+
+
+	
