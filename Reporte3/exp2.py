@@ -142,6 +142,7 @@ class Grafo:
 							d[(desde, hasta)] = c # mejora al camino actual
 		return d
 
+		
 		def camino(self, s, t, c, f): #construccion de camino aumentante
 			cola = [s]
 			usados = set()
@@ -172,7 +173,20 @@ class Grafo:
 			f = dict()
 			while True:
 				aum = self.camino(s, t, c, f)
-				if
+				if aum is None:
+					break #ya no hay
+				incr = min(aum.values(), key = (lambda k: k[1]))[1]
+				u = t
+				while u in aum:
+					v = aum [u][0]
+					actual = f.get((v, u), 0) #cero si no hay
+					inverso = f.get((u, v), 0)
+					f[(v, u)] = actual + incr
+					f[(u, v)] = inverso - incr
+					u = v
+				maximo += incr
+			return maximo
+
 
 
 
