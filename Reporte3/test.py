@@ -1,5 +1,5 @@
 
-from exp1 import Grafo
+from exp2 import Grafo
 p = Grafo()
 p.puntos(10)
 p.conecta(0.5)
@@ -8,7 +8,7 @@ print(p.V)
 print(p.E)
 
 p.imprimir("nodos.dat")
-p.grafica(1)
+p.grafica(2)
 #g2 = p.complemento()
 #print(g2.E)
 
