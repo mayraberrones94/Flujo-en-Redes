@@ -41,15 +41,15 @@ class Grafo:
 				if random() < prob:
 					self.agrega(u)
 					self.agrega(v)
-					self.E[(u, v)] = self.E[(u,v)] = int(sqrt((x2 - x1) ** 2 + (y2 - y1 )** 2)*100) #esto lo puedes quitar luego para hacer los ponderados
+					self.E[(u, v)] = int(sqrt((x2 - x1) ** 2 + (y2 - y1 )** 2)*100) #esto lo puedes quitar luego para hacer los ponderados
 					self.vecinos[v].add(u)
 					self.vecinos[u].add(v)
 					self.A.append((x1, y1, x2, y2, u, v))
 					self.pesos.append((sqrt((x2 - x1) ** 2 + (y2 - y1 )** 2)*100, (x1+x2)/2, (y1+y2)/2))
 
 	def distancia (self, x1, y1, x2, y2):
-		d = (sqrt((x2 - x1)**2 + (y2 - y1)**2)*100) -0.1
-		return d
+		dist = (sqrt((x2 - x1)**2 + (y2 - y1)**2)*100) 
+		return dist
 
 	def complemento (self):
 		comp = Grafo()
@@ -88,13 +88,13 @@ class Grafo:
 				print('set object circle at ', self.P[n][0], ',' , self.P[n][1], ' size scr 0.01 fc rgb "navy" ' , file = salida)
 			id = 1
 			for i in range(len(self.A)):
-				d = self.distancia(self.A[i][0], self.A[i][1], self.A[i][2], self.A[i][3])
+				dist = self.distancia(self.A[i][0], self.A[i][1], self.A[i][2], self.A[i][3])
 
-				xNod = 0.01 * (self.A[i][2] - self.A[i][0]) / d 
-				yNod = 0.01 * (self.A[i][3] - self.A[i][1]) / d 
+				xNod = 0.01 * (self.A[i][2] - self.A[i][0]) / dist
+				yNod = 0.01 * (self.A[i][3] - self.A[i][1]) / dist 
 
-				xVec = 0.01 * (self.A[i][0] - self.A[i][2]) / d
-				yVec = 0.01 * (self.A[i][1] - self.A[i][3]) / d
+				xVec = 0.01 * (self.A[i][0] - self.A[i][2]) / dist
+				yVec = 0.01 * (self.A[i][1] - self.A[i][3]) / dist
 
 				x1 = self.A[i][0] + xNod
 				x2 = self.A[i][2] + xVec
@@ -120,13 +120,61 @@ class Grafo:
 
 
 
+		
+	def camino(self, s, t, f): #construccion de camino aumentante
+		cola = [s]
+		usados = set()
+		camino = dict()
+		while len(cola) > 0:
+			u = cola.pop(0)
+			usados.add(u)
+			for (w, v) in self.E:
+				if w == u and v not in cola and v not in usados:
+					actual = f.get((u, v), 0)
+					dif = self.E[(u, v)] - actual
+					if dif > 0:
+						cola.append(v)
+						camino[v] = (u, dif)
+		if t in usados:
+			return camino
+		else: # no se alcanzo
+			return None	
+
+#c = p.E
+#s = Start, nodo de inicio que le voy a dar.
+#t = Target, nodo al que tiene que llegar. 
+
+	def ford_fulkerson(self, s, t): 
+		if s == t:
+			return 0; #O puedes poner mensaje de que start and target son iguales.
+		maximo = 0
+		f = dict()
+		while True:
+			aum = self.camino(s, t, f)
+			if aum is None:
+				break #ya no hay
+			incr = min(aum.values(), key = (lambda k: k[1]))[1]
+			u = t
+			while u in aum:
+				v = aum [u][0]
+				actual = f.get((v, u), 0) #cero si no hay
+				inverso = f.get((u, v), 0)
+				f[(v, u)] = actual + incr
+				f[(u, v)] = inverso - incr
+				u = v
+			maximo += incr
+		return maximo
+
 
 	def floyd_warshall (self): 
 		d = {}
 		for v in self.V:
 			d[(v, v)] = 0 # distancia reflexiva es cero
 			for u in self.vecinos[v]: # para vecinos, la distancia es el peso
-				d[(v, u)] = self.E[(v, u)]
+				if (v, u) in self.E:
+					d[(v, u)] = self.E[(v, u)]
+				else:
+					d[(v, u)] = self.E[(u, v)]
 		for intermedio in self.V:
 			for desde in self.V:
 				for hasta in self.V:
@@ -141,54 +189,6 @@ class Grafo:
 						if (desde, hasta) not in d or c < d[(desde, hasta)]:
 							d[(desde, hasta)] = c # mejora al camino actual
 		return d
-
-		
-		def camino(self, s, t, c, f): #construccion de camino aumentante
-			cola = [s]
-			usados = set()
-			camino = dict()
-			while len(cola) > 0:
-				u = cola.pop(0)
-				usados.add(u)
-				for (w, v) in c:
-					if w == u and v not in cola and v not in usados:
-						actual = f.get((u, v), 0)
-						dif = c[(u, v)] - actual
-						if dif > 0:
-							cola.append(v)
-							camino[v] = (u, dif)
-			if t in usados:
-				return camino
-			else: # no se alcanzo
-				return None
-
-#c = p.E
-#s = Start, nodo de inicio que le voy a dar.
-#t = Target, nodo al que tiene que llegar. 
-
-		def ford_fulkerson(self, c, s, t): 
-			if s == t:
-				return 0; #O puedes poner mensaje de que start and target son iguales.
-			maximo = 0
-			f = dict()
-			while True:
-				aum = self.camino(s, t, c, f)
-				if aum is None:
-					break #ya no hay
-				incr = min(aum.values(), key = (lambda k: k[1]))[1]
-				u = t
-				while u in aum:
-					v = aum [u][0]
-					actual = f.get((v, u), 0) #cero si no hay
-					inverso = f.get((u, v), 0)
-					f[(v, u)] = actual + incr
-					f[(u, v)] = inverso - incr
-					u = v
-				maximo += incr
-			return maximo
-
-
-
 
 
 	
