@@ -42,163 +42,180 @@
 
 \section*{Introducci\'on}
 
+En este reporte se toman prestados los resultados de los grafos construidos en el Reporte2, \cite{reporte} en donde se realizaron grafos simples, dirigidos y ponderados. En este caso se tomaron dos tipos de algoritmos de alcance, y se pusieron en pr\'actica en de los caminos que existen dentro de los vertices de los grafos, tanto para ver como es su funcionamiento, como para verificar la eficiencia que tiene cada uno de ellos.
 
 
 \begin{description}[font=$\bullet$~\normalfont\scshape\color{black}]
 \item[\textbf{Floyd Warshall } ]
+
+\end{description}
+ Floyd-Warshall es un algoritmo b\'asico de alcance que adem\'as computa los caminos mas cortos si nuestro grafo es ponderado. El algoritmo se construye de una manera incremental, en donde se hacen estimaciones de los caminos m\'as cortos entre dos v\'ertices hasta llegar a la soluci\'on \'optima \cite{elisa}.
+ \\
+ 
+\begin{lstlisting}
+// exp2.py
+def floyd_warshall (self): 
+		d = {}
+		for v in self.V:
+			d[(v, v)] = 0 # distancia reflexiva es cero
+			for u in self.vecinos[v]: # para vecinos, la distancia es el peso
+				if (v, u) in self.E:
+					d[(v, u)] = self.E[(v, u)]
+				else:
+					d[(v, u)] = self.E[(u, v)]
+		for intermedio in self.V:
+			for desde in self.V:
+				for hasta in self.V:
+					di = None
+					if (desde, intermedio) in d:
+						di = d[(desde, intermedio)]
+					ih = None
+					if (intermedio, hasta) in d:
+						ih = d[(intermedio, hasta)]
+					if di is not None and ih is not None:
+						c = di + ih # largo del camino via "i"
+						if (desde, hasta) not in d or c < d[(desde, hasta)]:
+							d[(desde, hasta)] = c # mejora al camino actual
+		with open("Warshall.dat", "at") as archivo:
+			print(d, file = archivo)
+		return d
+	
+\end{lstlisting}
+Para su complejidad vemos que el algoritmo tiene tres ciclos de \textit{for} por lo que su complejidad se va a $O(V)^3$. Este tipo de algoritmo es completamente dependiente de los n\'umeros de vertices de los grafos, por lo que lo hace especialmente util para ciertos tipos de grafos, mientras que en otros esto no nos ayuda en mucho \cite{floyd2}.
+
+
+La pregunta que se puede formular es si el algoritmo Floyd-Warshall es bueno para los algoritmos que contienen muchas aristas conectando sus vertices, o uno de pocas aristas. La respuesta seria en un grafo con mas aristas, ya que el objetivo de este algoritmo es encontrar los caminos mas cortos que pueda unir todos los pares de vertices\cite{floyd1}. 
+
+
+\begin{description}[font=$\bullet$~\normalfont\scshape\color{black}] 
 \item[\textbf{Ford Fulkerson} ]
 
 \end{description}
 
-\section*{Fase 1: Gr\'afo normal}
+En el caso del algoritmo de Ford-Fulkerson nos inclinamos mas sobre el tema de flujos y cortes, que son problemas muy comunes dentro de los grafos ponderados. En este caso, tenemos dos vertices especiales, que llamamos \textbf{fuente} \textit{s} y \textbf{sumidero} \textit{t}. \cite{elisa}
 
-El nombre de la clase es $Grafo$. Se importaron las librer\'ias de \textbf{random} y \textbf{math}. Las funciones que contiene esta clase se describen de la siguiente manera.
 
-\begin{lstlisting}
-// gr.py
-	def __init__(self):
-
-	def puntos(self, num):
-
-	def aristas(self, prob):
-	
-	def imprimir(self, arch):
-	
-	def grafica (self):
-	
-\end{lstlisting}
-
-En la funci\'on $init$ se guardan las variables globales que se utilizan en las dem\'as funciones, ya que no puedes manipular una variable que esta dentro de una funci\'on diferente de la que se este usando actualmente.
-\\
-
-Despu\'es est\'a la funci\'on de $puntos$, en la cual se crean la cantidad de puntos aleatorios indicados en la entrada $num$.
-\\
-
-En la funci\'on de $aristas$ es donde se crean las conexiones entre los puntos que se crearon en $puntos$. En este caso, el dato de entrada que solicita es el de la probabilidad para que dichos puntos se unan. Entre m\'as grande el n\'umero, m\'as cantidad de conexiones existir\'an.
-\\
-
-En la funci\'on $imprimir$ requiere la entrada del nombre del archivo en cual se van a guardar los datos. La terminaci\'on en este ejemplo, es de .dat.
-\\
-
-Por \'ultimo, la funci\'on de $grafica$ simplemente se encarga de generar la imagen que ten\'ia de salida el programa de la pr\'actica anterior.
-
-Las lineas necesarias para correr este programa son:
+En una forma r\'apida de explicarlo, tenemos que encontrar el camino que nos lleve del v\'ertice \textit{s} al v\'ertice \textit{t}, pasando por sus conexiones o aristas, las cuales tienen diferentes pesos o capacidades. Si nuestro grafo es dirigido, los valores en sentido contrario a la direcci\'on que se indica se vuelven negativos\cite{ford}. Esta es una manera bastante simplificada de como funciona el algoritmo, pero nos ayudar\'a a entender suficiente para saber lo que hace nuestro c\'odigo.
 
 \begin{lstlisting}
-// ko.py
-from rep2 import Grafo
-p = Grafo()
-p.puntos(10)
-p.aristas(0.5)
-p.imprimir("nodos.dat")
-p.grafica()
+// exp2.py
+	def camino(self): #construccion de camino aumentante
+		cola = [self.s]
+		usados = set()
+		camino = dict()
+		while len(cola) > 0:
+			u = cola.pop(0)
+			usados.add(u)
+			for (w, v) in self.E:
+				if w == u and v not in cola and v not in usados:
+					actual = self.f.get((u, v), 0)
+					dif = self.E[(u, v)] - actual
+					if dif > 0:
+						cola.append(v)
+						camino[v] = (u, dif)
+		if self.t in usados:
+			return camino
+		else: # no se alcanzo
+			return None	
 \end{lstlisting}
 
-\begin{figure}[h]
-
-\centering
-\includegraphics[width = 1\textwidth]{nodos1.eps}
-\caption{Gr\'afo normal.}
-\end{figure}
-
-\section*{Fase 2: Gr\'afo dirigido}
-
-Para esta secci\'on, se realiz\'o un cambio en la funci\'on de $grafica$, en donde se le agregaron lineas de c\'odigo para especificar la direcci\'on en la que van las aristas hacia los puntos.
+Para poder utilizar el algoritmo de Ford-Fulkerson, primero tenemos que realizar un camino posible del v\'ertice \textit{s} al v\'ertice \textit{t}. Mientras existan mas caminos, el algoritmo los va a seguir comparando, hasta encontrar el que tenga menor peso, en nuestro caso.
 
 \begin{lstlisting}
-// gr.py
-	def grafica (self, di):
-		assert self.archivo is not None
-		with open("nodos.plot", 'w') as salida: 
-			print('set term eps', file = salida)
-			print('set output "nodos.eps"', file = salida)
-			print('set size square', file = salida)
-			print('set key off', file = salida)
-			print ('set xrange [-.1:1.1]', file = salida)
-			print ('set yrange [-.1:1.1]', file = salida)
-			id = 1
-			for i in range(len(self.Ari)):
-				if di is 1:
-					print('set arrow', id, 'from', self.Ari[i][0], ',', self.Ari[i][1], 'to', self.Ari[i][2], ',', self.Ari[i][3], 'head filled lw 1',  file = salida)
-					id +=1
-				else:
-					print('set arrow', id, 'from', self.Ari[i][0], ',', self.Ari[i][1], 'to', self.Ari[i][2], ',', self.Ari[i][3], 'nohead filled lw 1', file = salida)
-					id +=1
-			print('plot "nodos.dat" using 1:2:3 with points pt 7 lc var ps 2 ', file = salida)
-			print('quit()', file =  salida)
+// exp2.py
+	def ford_fulkerson(self): 
+		self.s = self.P[2]
+		self.t = self.P[randint(1, self.n - 1)][2]
+		if self.s == self.t:
+			return 0; #O puedes poner mensaje de que start and target son iguales.
+		maximo = 0
+		self.f = dict()
+		while True:
+			aum = self.camino()
+			if aum is None:
+				break #ya no hay
+			incr = min(aum.values(), key = (lambda k: k[1]))[1]
+			u = self.t
+			while u in aum:
+				v = aum [u][0]
+				actual = self.f.get((v, u), 0) #cero si no hay
+				inverso = self.f.get((u, v), 0)
+				self.f[(v, u)] = actual + incr
+				self.f[(u, v)] = inverso - incr
+				u = v
+			maximo += incr
+		with open("Fulkerson.dat", "at") as archivo:
+			print(maximo, file = archivo)
+		return maximo
 \end{lstlisting}
 
-En los par\'ametros de entrada para la funci\'on, lo que cambia es que ahora se le pide, $1$ en caso de querer un gr\'afo dirigido, y cualquier otro numero en caso de querer un gr\'afo normal. 
+\section*{An\'alisis de los Algoritmos.}
 
-\begin{figure}[h]
-
-\centering
-\includegraphics[width = 1\textwidth]{nodo2.eps}
-\caption{Gr\'afo dirigido.}
-\end{figure}
-
-\section*{Fase 3: Gr\'afo ponderado}
-
-Para esta fase, lo que se requiere es, de alguna manera, darle peso a las aristas que unen los puntos en el gr\'afo. En este caso, se modific\'o tanto la funci\'on de $grafica$ como la de $aristas$. Adem\'as se agreg\'o una variable global para guardar estos datos llamada $pesos$.
-
-Lo que se busca con la variable $pesos$ es calcular la distancia entre los puntos que si se conectan. Entre mas larga sea esta distancia, el costo de recorrerla ser\'a m\'as alto.
+Para poder hacer un an\'alisis del runtime de los algoritmos dependiendo de la cantidad de vertices y de aristas, se modific\'o el c\'odigo \textit{test.py} que se realiz\'o en el reporte anterior \cite{reporte} para poder tomar los tiempos de corrida con diferente cantidad de nodos, al igual que con diferentes grafos, dirigidos y no dirigidos.
 
 \begin{lstlisting}
-//rep2.py
-	def aristas(self, prob):
-		for i in range(self.n - 1):
-			self.nodo2.append(self.P[i])
-		for i in range(self.n):
-			self.nodo3.append(self.P[i])
-		for(x1, y1, i) in self.nodo2:
-			del self.nodo3[0]
-			for(x2, y2, j) in self.nodo3:
-				if random() < prob:
-					self.Ari.append((x1, y1, x2, y2))
-					self.pesos.append((sqrt((x2 - x1) ** 2 + (y2 - y1 )** 2)*100, (x1+x2)/2, (y1+y2)/2))
-		print(len(self.Ari))
+//test.py
 
-(...)		
-		
-	def grafica (self, di):
-		assert self.archivo is not None
-		with open("nodos.plot", 'w') as salida: 
-			print('set term eps', file = salida)
-			print('set output "nodos.eps"', file = salida)
-			print('set size square', file = salida)
-			print('set key off', file = salida)
-			print ('set xrange [-.1:1.1]', file = salida)
-			print ('set yrange [-.1:1.1]', file = salida)
-			id = 1
-			for i in range(len(self.Ari)):
-				if di is 2 :
-					print('set arrow', id, 'from', self.Ari[i][0], ',', self.Ari[i][1], 'to', self.Ari[i][2], ',', self.Ari[i][3], 'head filled lw 1',  file = salida)
-					id +=1
-				elif di is 1:
-					print('set arrow', id, 'from', self.Ari[i][0], ',', self.Ari[i][1], 'to', self.Ari[i][2], ',', self.Ari[i][3], 'nohead filled lw 1', file = salida)
-					id +=1
-				elif di is 3:
-					print('set arrow', id, 'from', self.Ari[i][0], ',', self.Ari[i][1], 'to', self.Ari[i][2], ',', self.Ari[i][3], 'nohead filled lw 1', file = salida)
-					print('set label', "'", int(self.pesos[i][0]), "'", 'at', self.pesos[i][1], ',', self.pesos[i][2], file = salida)
-					id +=1
+import time
+from exp2 import Grafo
+puntos = 10
+di = 3
+proba = 0.5
 
-			print('plot "nodos.dat" using 1:2:3 with points pt 7 lc var ps 2 ', file = salida)
-			print('quit()', file =  salida)
-		
+if di > 2:
+	for n in range(1, 21):
+		for j in range(0, 10):
+			if di is 3:
+				with open("TiempoNoDir.csv", "at") as salida:
+					tim = time.clock()
+					i = 5 * n
+					p = Grafo()
+					p.puntos(i)
+					p.conecta(proba, di)
+					p.ford_fulkerson()
+					p.floyd_warshall()
+					p.imprimir("nodos.dat")
+					p.grafica(di)
+					print(time.clock() - tim, file = salida)
+
+			elif di is 4:
+				with open("TiempoDir.csv", "at") as salida:
+					tim = time.clock()
+					i = 5 * n
+					p = Grafo()
+					p.puntos(i)
+					p.conecta(proba, di)
+					p.ford_fulkerson()
+					p.floyd_warshall()
+					p.imprimir("nodos.dat")
+					p.grafica(di)
+					print(time.clock() - tim, file = salida)
 \end{lstlisting}
 
-En la entrada de la funci\'on $grafica$, lo que se debe tomar en cuenta es que si se le da un 1, es un gr\'afo simple, si se le da un 2, es un gr\'afo dirigido, y si es un 3, es un gr\'afo ponderado.
-\begin{figure}[h]
+\begin{figure*}[h!] 
+\includegraphics[]{TiempoNoDirFinal.pdf}
+\caption{Tiempo no dirigido}
+\label{tnd}
+\end{figure*}
 
-\centering
-\includegraphics[width = 1\textwidth]{nodos1.png}
-
-\caption{Gr\'afo ponderado.}
-\end{figure}
+\begin{figure*}[h!] 
+\includegraphics[]{TiempoDirFinal.pdf}
+\caption{Tiempo dirigido}
+\label{td}
+\end{figure*}
+ 
+\break
 
 \section*{Conclusi\'on}
 
-Teniendo un buen panorama de estos tres tipos de gr\'afos, podemos empezar a imaginarlos o trasladarlos a los problemas de optimizaci\'on que hemos estado aprendiendo en otras clases, como lo es el del problema del agente viajero. Esta es una de las herramientas que podemos tener para representarlos. Mas adelante, quiz\'a, aprendamos a recorrerlos e intentar encontrar una soluci\'on factible.
+\begin{thebibliography}{5}
+\bibitem{reporte} \textsc{Berrones Reyes, Mayra Cristina} \textit{Reporte2. Marzo 2018}
+\bibitem{elisa} \textsc{Schaeffer, Elisa} \textit{https://elisa.dyndns-web.com/teaching/mat/discretas/md.html} \textsc{Matem\'aticas Discretas. Grafos y \'arboles.}  \textbf{Retrieved. Abril. 2018}
+\bibitem{floyd2} \textsc{Floyd-Warshall Algorithm.} \textit{Brilliant.org, from https://brilliant.org/wiki/floyd-warshall-algorithm/} \textbf{Retrieved. April 3. 2018}
+\bibitem{floyd1}\textsc{Michael Sambol} \textit{Step by step instructions showing how to run the Floyd?Warshall algorithm on a graph.} \textit{Publicado. 16 Julio. 2016, from https://www.youtube.com/watch?v=4OQeCuLYj-4}
+\bibitem{ford} \textsc{Michael Sambol} \textit{Ford-Fulkerson in 5 minutes ? Step by step example} \textit{Publicado 7 de Julio 2016, from https://www.youtube.com/watch?v=Tl90tNtKvxs}
+
+\end{thebibliography}
 
 \end{document} 
 
