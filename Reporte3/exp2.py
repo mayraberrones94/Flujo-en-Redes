@@ -1,5 +1,6 @@
-from random import random
+from random import random, uniform, randint
 from math import sqrt
+import time
 
 class Grafo:
 
@@ -30,7 +31,7 @@ class Grafo:
 		if not v in self.vecinos:
 			self.vecinos[v] = set()
 
-	def conecta (self, prob):
+	def conecta (self, prob, pes):
 		for i in range(self.n - 1):
 			self.nod2.append(self.P[i])
 		for i in range(self.n):
@@ -41,7 +42,15 @@ class Grafo:
 				if random() < prob:
 					self.agrega(u)
 					self.agrega(v)
-					self.E[(u, v)] = int(sqrt((x2 - x1) ** 2 + (y2 - y1 )** 2)*100) #esto lo puedes quitar luego para hacer los ponderados
+					if pes is 1:
+						self.E[(u, v)] = self.E[(v, u)] = 1 #para un grafo simple
+					elif pes is 2:
+						self.E[(u, v)] = 1 #Para el grafo dirigido
+					elif pes is 3:
+						self.E[(u, v)] = self.E[(v, u)] = int(sqrt((x2 - x1) ** 2 + (y2 - y1 )** 2)*100) #Grafo ponderado no dirigido.
+					elif pes is 4:
+						self.E[(u, v)] =  int(sqrt((x2 - x1) ** 2 + (y2 - y1 )** 2)*100) #Grafo dirigido y ponderado.
+
 					self.vecinos[v].add(u)
 					self.vecinos[u].add(v)
 					self.A.append((x1, y1, x2, y2, u, v))
@@ -85,7 +94,7 @@ class Grafo:
 			print('set yrange [-.1:1.1]', file = salida)
 			for n in range(len(self.P)):
 				print('set label', "'" , int(self.P[n][2]), "'", 'at', self.P[n][0], ",", self.P[n][1],  file = salida )
-				print('set object circle at ', self.P[n][0], ',' , self.P[n][1], ' size scr 0.01 fc rgb "navy" ' , file = salida)
+				#print('set object circle at ', self.P[n][0], ',' , self.P[n][1], ' size scr 0.01 fc rgb "navy" ' , file = salida)
 			id = 1
 			for i in range(len(self.A)):
 				dist = self.distancia(self.A[i][0], self.A[i][1], self.A[i][2], self.A[i][3])
@@ -121,8 +130,8 @@ class Grafo:
 
 
 		
-	def camino(self, s, t, f): #construccion de camino aumentante
-		cola = [s]
+	def camino(self): #construccion de camino aumentante
+		cola = [self.s]
 		usados = set()
 		camino = dict()
 		while len(cola) > 0:
@@ -130,12 +139,12 @@ class Grafo:
 			usados.add(u)
 			for (w, v) in self.E:
 				if w == u and v not in cola and v not in usados:
-					actual = f.get((u, v), 0)
+					actual = self.f.get((u, v), 0)
 					dif = self.E[(u, v)] - actual
 					if dif > 0:
 						cola.append(v)
 						camino[v] = (u, dif)
-		if t in usados:
+		if self.t in usados:
 			return camino
 		else: # no se alcanzo
 			return None	
@@ -144,25 +153,30 @@ class Grafo:
 #s = Start, nodo de inicio que le voy a dar.
 #t = Target, nodo al que tiene que llegar. 
 
-	def ford_fulkerson(self, s, t): 
-		if s == t:
+	def ford_fulkerson(self): 
+		self.s = self.P[2]
+		self.t = self.P[randint(1, self.n - 1)][2]
+
+		if self.s == self.t:
 			return 0; #O puedes poner mensaje de que start and target son iguales.
 		maximo = 0
-		f = dict()
+		self.f = dict()
 		while True:
-			aum = self.camino(s, t, f)
+			aum = self.camino()
 			if aum is None:
 				break #ya no hay
 			incr = min(aum.values(), key = (lambda k: k[1]))[1]
-			u = t
+			u = self.t
 			while u in aum:
 				v = aum [u][0]
-				actual = f.get((v, u), 0) #cero si no hay
-				inverso = f.get((u, v), 0)
-				f[(v, u)] = actual + incr
-				f[(u, v)] = inverso - incr
+				actual = self.f.get((v, u), 0) #cero si no hay
+				inverso = self.f.get((u, v), 0)
+				self.f[(v, u)] = actual + incr
+				self.f[(u, v)] = inverso - incr
 				u = v
 			maximo += incr
+		with open("Fulkerson.dat", "at") as archivo:
+			print(maximo, file = archivo)
 		return maximo
 
 
@@ -188,6 +202,8 @@ class Grafo:
 						c = di + ih # largo del camino via "i"
 						if (desde, hasta) not in d or c < d[(desde, hasta)]:
 							d[(desde, hasta)] = c # mejora al camino actual
+		with open("Warshall.dat", "at") as archivo:
+			print(d, file = archivo)
 		return d
 
 
