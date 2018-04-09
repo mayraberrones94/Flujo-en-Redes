@@ -117,11 +117,11 @@ class Grafo:
 					print('set arrow', id, 'from', self.A[i][0], ',', self.A[i][1] , 'to', self.A[i][2] , ',', self.A[i][3] , 'nohead filled lw 1', file = salida)
 					id +=1
 				elif di is 3:
-					if int(self.pesos[i][0]) in range(0, 21):
+					if int(self.pesos[i][0]) in range(0, 29):
 						print('set arrow', id, 'from', self.A[i][0], ',', self.A[i][1] , 'to', self.A[i][2] , ',', self.A[i][3] , 'nohead filled lw 1 lc 2', file = salida)
-					elif int(self.pesos[i][0]) in range(22, 45):
+					elif int(self.pesos[i][0]) in range(30, 59):
 						print('set arrow', id, 'from', self.A[i][0], ',', self.A[i][1] , 'to', self.A[i][2] , ',', self.A[i][3] , 'nohead filled lw 3 lc 1', file = salida)
-					elif int(self.pesos[i][0]) in range(46, 99):
+					elif int(self.pesos[i][0]) in range(60, 99):
 						print('set arrow', id, 'from', self.A[i][0], ',', self.A[i][1] , 'to', self.A[i][2] , ',', self.A[i][3] , 'nohead filled lw 6 lc 0', file = salida)
 					#print('set label', "'", int(self.pesos[i][0]), "'", 'at', self.pesos[i][1], ',', self.pesos[i][2], file = salida)
 					id +=1

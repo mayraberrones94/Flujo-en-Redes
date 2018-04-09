@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.5.23)  8 APR 2018 21:11
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.5.23)  8 APR 2018 21:55
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -102,6 +102,14 @@ Package: enumitem 2011/09/28 v3.5.2 Customized lists
 \enit@inbox=\box28
 \enitdp@description=\count96
 )
+(/usr/local/texlive/2017/texmf-dist/tex/latex/float/float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count97
+\float@exts=\toks17
+\float@box=\box29
+\@float@everytoks=\toks18
+\@floatcapt=\box30
+)
 (/usr/local/texlive/2017/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2015/06/04 1.6 listings language file
 )
@@ -115,32 +123,32 @@ LaTeX Warning: Label `td' multiply defined.
 )
 \openout1 = `Reporte3.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 30.
-LaTeX Font Info:    ... okay on input line 30.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 30.
-LaTeX Font Info:    ... okay on input line 30.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 30.
-LaTeX Font Info:    ... okay on input line 30.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 30.
-LaTeX Font Info:    ... okay on input line 30.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 30.
-LaTeX Font Info:    ... okay on input line 30.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 30.
-LaTeX Font Info:    ... okay on input line 30.
-\c@lstlisting=\count97
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+\c@lstlisting=\count98
  (/usr/local/texlive/2017/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count98
+\scratchcounter=\count99
 \scratchdimen=\dimen110
-\scratchbox=\box29
-\nofMPsegments=\count99
-\nofMParguments=\count100
-\everyMPshowfont=\toks17
-\MPscratchCnt=\count101
+\scratchbox=\box31
+\nofMPsegments=\count100
+\nofMParguments=\count101
+\everyMPshowfont=\toks19
+\MPscratchCnt=\count102
 \MPscratchDim=\dimen111
-\MPnumerator=\count102
-\makeMPintoPDFobject=\count103
-\everyMPtoPDFconversion=\toks18
+\MPnumerator=\count103
+\makeMPintoPDFobject=\count104
+\everyMPtoPDFconversion=\toks20
 ) (/usr/local/texlive/2017/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
 Package: pdftexcmds 2017/03/19 v0.25 Utility functions of pdfTeX for LuaTeX (HO
 )
@@ -194,20 +202,35 @@ e
 
 {/usr/local/texlive/2017/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 49.
+(Font)              <7> on input line 50.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 49.
+(Font)              <5> on input line 50.
 
 
 LaTeX Font Warning: Font shape `OT1/cmr/bx/sc' undefined
-(Font)              using `OT1/cmr/bx/n' instead on input line 49.
+(Font)              using `OT1/cmr/bx/n' instead on input line 50.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 53--55
+Underfull \hbox (badness 10000) in paragraph at lines 54--56
 
  []
 
-[1] [2] [3]
+
+Underfull \hbox (badness 10000) in paragraph at lines 87--89
+
+ []
+
+[1] [2]
+Underfull \hbox (badness 10000) in paragraph at lines 158--160
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 161--163
+
+ []
+
+[3]
 Package epstopdf Info: Source file: <Nodos2.eps>
 (epstopdf)                    date: 2018-04-08 20:43:52
 (epstopdf)                    size: 30794 bytes
@@ -216,15 +239,18 @@ Package epstopdf Info: Source file: <Nodos2.eps>
 (epstopdf)                    size: 6537 bytes
 (epstopdf)             Command: <repstopdf --outfile=Nodos2-eps-converted-to.pd
 f Nodos2.eps>
-(epstopdf)             \includegraphics on input line 198.
+(epstopdf)             \includegraphics on input line 207.
 Package epstopdf Info: Output file is already uptodate.
  <Nodos2-eps-converted-to.pdf, id=24, 361.35pt x 252.945pt>
 File: Nodos2-eps-converted-to.pdf Graphic file (type pdf)
 
 <use Nodos2-eps-converted-to.pdf>
-Package pdftex.def Info: Nodos2-eps-converted-to.pdf used on input line 198.
+Package pdftex.def Info: Nodos2-eps-converted-to.pdf used on input line 207.
 (pdftex.def)             Requested size: 345.0pt x 241.50058pt.
- [4 <./Nodos2-eps-converted-to.pdf>]
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
 Package epstopdf Info: Source file: <Nodos3.eps>
 (epstopdf)                    date: 2018-04-08 20:45:34
 (epstopdf)                    size: 24117 bytes
@@ -233,61 +259,82 @@ Package epstopdf Info: Source file: <Nodos3.eps>
 (epstopdf)                    size: 5700 bytes
 (epstopdf)             Command: <repstopdf --outfile=Nodos3-eps-converted-to.pd
 f Nodos3.eps>
-(epstopdf)             \includegraphics on input line 204.
+(epstopdf)             \includegraphics on input line 213.
 Package epstopdf Info: Output file is already uptodate.
-
-<Nodos3-eps-converted-to.pdf, id=33, 361.35pt x 252.945pt>
+<Nodos3-eps-converted-to.pdf, id=25, 361.35pt x 252.945pt>
 File: Nodos3-eps-converted-to.pdf Graphic file (type pdf)
 
 <use Nodos3-eps-converted-to.pdf>
-Package pdftex.def Info: Nodos3-eps-converted-to.pdf used on input line 204.
+Package pdftex.def Info: Nodos3-eps-converted-to.pdf used on input line 213.
 (pdftex.def)             Requested size: 345.0pt x 241.50058pt.
- [5 <./Nodos3-eps-converted-to.pdf>]
-<TiempoNoDirFinal.pdf, id=42, 505.89pt x 505.89pt>
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<TiempoNoDirFinal.pdf, id=26, 505.89pt x 505.89pt>
 File: TiempoNoDirFinal.pdf Graphic file (type pdf)
  <use TiempoNoDirFinal.pdf>
-Package pdftex.def Info: TiempoNoDirFinal.pdf used on input line 212.
+Package pdftex.def Info: TiempoNoDirFinal.pdf used on input line 224.
 (pdftex.def)             Requested size: 345.0pt x 345.00414pt.
 
-[6 <./TiempoNoDirFinal.pdf>] <TiempoDirFinal.pdf, id=53, 505.89pt x 505.89pt>
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<TiempoDirFinal.pdf, id=27, 505.89pt x 505.89pt>
 File: TiempoDirFinal.pdf Graphic file (type pdf)
-
-<use TiempoDirFinal.pdf>
-Package pdftex.def Info: TiempoDirFinal.pdf used on input line 218.
+ <use TiempoDirFinal.pdf>
+Package pdftex.def Info: TiempoDirFinal.pdf used on input line 230.
 (pdftex.def)             Requested size: 345.0pt x 345.00414pt.
- [7 <./TiempoDirFinal.pdf>]
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[4] [5 <./Nodos2-eps-converted-to.pdf> <./Nodos3-eps-converted-to.pdf>]
+[6 <./TiempoNoDirFinal.pdf>] [7 <./TiempoDirFinal.pdf>]
 Missing character: There is no í in font cmr10!
+
+Underfull \hbox (badness 10000) in paragraph at lines 239--241
+\OT1/cmr/m/n/10 cional. 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 239--241
+
+ []
+
 Missing character: There is no ó in font cmr10!
 
-Overfull \hbox (30.08109pt too wide) in paragraph at lines 235--236
+Overfull \hbox (30.08109pt too wide) in paragraph at lines 247--248
 []\OT1/cmr/m/sc/10 Schaeffer, Elisa \OT1/cmr/m/it/10 https://elisa.dyndns-web.c
 om/teaching/mat/discretas/md.html
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 236--237
+Underfull \hbox (badness 10000) in paragraph at lines 248--249
 []\OT1/cmr/m/sc/10 Floyd-Warshall Al-go-rithm. \OT1/cmr/m/it/10 Bril-liant.org,
  from
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 236--237
+Underfull \hbox (badness 10000) in paragraph at lines 248--249
 \OT1/cmr/m/it/10 https://brilliant.org/wiki/floyd-warshall-algorithm/ \OT1/cmr/
 bx/sc/10 Re-trieved. April
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 238--239
+Underfull \hbox (badness 10000) in paragraph at lines 250--251
 []\OT1/cmr/m/sc/10 Michael Sam-bol \OT1/cmr/m/it/10 Ford-Fulkerson in 5 min-ute
 s ? Step
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 238--239
+Underfull \hbox (badness 10000) in paragraph at lines 250--251
 \OT1/cmr/m/it/10 by step ex-am-ple Pub-li-cado 7 de Julio 2016, from
  []
 
-[8] (./Reporte3.aux)
+[8
+
+] (./Reporte3.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
@@ -296,13 +343,13 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 3358 strings out of 492995
- 48904 string characters out of 6132704
- 167643 words of memory out of 5000000
- 6892 multiletter control sequences out of 15000+600000
+ 3414 strings out of 492995
+ 49643 string characters out of 6132704
+ 165963 words of memory out of 5000000
+ 6944 multiletter control sequences out of 15000+600000
  6874 words of font info for 25 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 39i,6n,40p,532b,1526s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 39i,6n,40p,532b,1520s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 ></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
 </usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb>
@@ -312,7 +359,7 @@ sr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/
 local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/l
 ocal/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/lo
 cal/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
-Output written on Reporte3.pdf (9 pages, 148983 bytes).
+Output written on Reporte3.pdf (9 pages, 150106 bytes).
 PDF statistics:
  96 PDF objects out of 1000 (max. 8388607)
  67 compressed objects within 1 object stream

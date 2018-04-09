@@ -5,6 +5,7 @@
 \usepackage{color}
 \usepackage{graphicx}
 \usepackage{enumitem}
+\usepackage{float}
 
 
 \definecolor{dkgreen}{rgb}{0,0.6,0}
@@ -56,7 +57,7 @@ En este reporte se toman prestados los resultados de los grafos construidos en e
 \begin{lstlisting}
 // exp2.py
 def floyd_warshall (self): 
-		d = {}
+		d = {} 
 		for v in self.V:
 			d[(v, v)] = 0 # distancia reflexiva es cero
 			for u in self.vecinos[v]: # para vecinos, la distancia es el peso
@@ -84,7 +85,7 @@ def floyd_warshall (self):
 \end{lstlisting}
 
 Para su complejidad vemos que el algoritmo tiene tres ciclos de \textit{for} por lo que su complejidad se va a $O(V)^3$. Este tipo de algoritmo es completamente dependiente de los n\'umeros de vertices de los grafos, por lo que lo hace especialmente util para ciertos tipos de grafos, mientras que en otros esto no nos ayuda en mucho \cite{floyd2}.
-
+\\
 
 La pregunta que se puede formular es si el algoritmo Floyd-Warshall es bueno para los algoritmos que contienen muchas aristas conectando sus vertices, o uno de pocas aristas. La respuesta seria en un grafo con mas aristas, ya que el objetivo de este algoritmo es encontrar los caminos mas cortos que pueda unir todos los pares de vertices\cite{floyd1}. 
 
@@ -123,6 +124,7 @@ En una forma r\'apida de explicarlo, tenemos que encontrar el camino que nos lle
 
 Para poder utilizar el algoritmo de Ford-Fulkerson, primero tenemos que realizar un camino posible del v\'ertice \textit{s} al v\'ertice \textit{t}. Mientras existan mas caminos, el algoritmo los va a seguir comparando, hasta encontrar el que tenga menor peso, en nuestro caso.
 
+
 \begin{lstlisting}
 // exp2.py
 	def ford_fulkerson(self): 
@@ -153,7 +155,14 @@ Para poder utilizar el algoritmo de Ford-Fulkerson, primero tenemos que realizar
 
 \section*{An\'alisis de los Algoritmos.}
 
+Cuando no hay pesos en las aristas, todos los resultados dan igual a cero, por lo que las gr\'aficas que se presentan m\'as adelante son de los grafos que tienen ponderaci\'on, la \'unica diferencia es cuando est\'an dirigidos y cuando no.
+\\
+
+En ambos casos, tanto en Floyd-Warshall como en Ford-Fulkerson, cuando los grafos son ponderados y dirigidos, hay una menor probabilidad de que se obtenga un resultado, sobre todo cuando la cantidad de nodos es poca, ya que los nodos inicial y final (en caso de Fulkerson) no tiene acceso a todos los nodos por la direcci\'on de sus aristas. En el caso de Warshall, puede que no toque todos los nodos, como es necesario.
+\\
+
 Para poder hacer un an\'alisis del runtime de los algoritmos dependiendo de la cantidad de vertices y de aristas, se modific\'o el c\'odigo \textit{test.py} que se realiz\'o en el reporte anterior \cite{reporte} para poder tomar los tiempos de corrida con diferente cantidad de nodos, al igual que con diferentes grafos, dirigidos y no dirigidos.
+
 
 \begin{lstlisting}
 //test.py
@@ -199,33 +208,38 @@ if di > 2:
 \caption{Dirigido y ponderado.}
 \label{td}
 \end{figure*}
-\break
+
 \begin{figure*}[h!] 
 \includegraphics[width = 1\textwidth]{Nodos3.eps}
 \caption{Ponderado, sin direccion}
 \label{td}
 \end{figure*}
 
-\break
+
+Los cambios que se le realizaron a las gr\'aficas finales es que el grosor de la linea aumenta dependiendo del peso que tengan. El grosor mas delgado es el de color verde y representa los pesos que van desde 0 hasta 29. El siguiente grosor es de color morado, y va desde el rango de pesos de 30 a 59. El \'ultimo grosor es el de color negro, y ese va desde 60 hacia adelante.
+
+Los n\'umeros que aparecen a un lado de los puntos es el n\'umero de id de cada uno de los nodos.
 
 \begin{figure*}[h!] 
 \includegraphics[width = 1\textwidth]{TiempoNoDirFinal.pdf}
 \caption{Tiempo no dirigido}
 \label{tnd}
 \end{figure*}
-\break
+
 \begin{figure*}[h!] 
 \includegraphics[width = 1\textwidth]{TiempoDirFinal.pdf}
 \caption{Tiempo dirigido}
 \label{td}
 \end{figure*}
 
-\break
-
+\clearpage
 
 \section*{Conclusi\'on}
 
-Para finalizar, si se realiza una revisi\'on de las gr\'aficas resultantes, podemos ver que el tiempo de ejecuci\'on si aumenta de manera significativa. En la gr\'afica que se muestra en este reporte solamente llegamos a analizar 95 nodos, y la curva que se hizo si se pronunci\'o. En casos reales, supongo que no se van a utilizar una menor cantidad de 1000 nodos, lo cual podría costar bastante trabajo computacional.Este reporte fue una buena introducción para los distintos algoritmos de alcance que existen, y cual es su funcionamiento, ya que en otras clases de optimizaci\'on se ha iniciado el estudio de este tipo de grafos, cortes y caminos, pero poderlos aterrizar a manera de algoritmos, ha ayudado a su mejor entendimiento.
+Para finalizar, si se realiza una revisi\'on de las gr\'aficas resultantes, podemos ver que el tiempo de ejecuci\'on si aumenta de manera significativa. En la gr\'afica que se muestra en este reporte solamente llegamos a analizar 95 nodos, y la curva que se hizo si se pronunci\'o. En casos reales, supongo que no se van a utilizar una menor cantidad de 1000 nodos, lo cual podría costar bastante trabajo computacional.
+\break
+
+Este reporte fue una buena introducción para los distintos algoritmos de alcance que existen, y cual es su funcionamiento, ya que en otras clases de optimizaci\'on se ha iniciado el estudio de este tipo de grafos, cortes y caminos, pero poderlos aterrizar a manera de algoritmos, ha ayudado a su mejor entendimiento.
 
 
 \begin{thebibliography}{5}
