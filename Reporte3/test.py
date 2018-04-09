@@ -1,7 +1,7 @@
 import time
 from exp2 import Grafo
 puntos = 10
-di = 3
+di = 1
 proba = 0.5
 
 if di > 2:
@@ -36,11 +36,9 @@ if di > 2:
 else: 
 	p = Grafo()
 	p.puntos(puntos)
-	p.conecta(proba, di)
-	p.ford_fulkerson()
-	p.floyd_warshall()
+	p.conecta(proba, 3)
 	p.imprimir("nodos.dat")
-	p.grafica(di)
+	p.grafica(3)
 
 
 

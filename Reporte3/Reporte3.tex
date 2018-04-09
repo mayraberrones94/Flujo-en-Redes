@@ -49,7 +49,8 @@ En este reporte se toman prestados los resultados de los grafos construidos en e
 \item[\textbf{Floyd Warshall } ]
 
 \end{description}
- Floyd-Warshall es un algoritmo b\'asico de alcance que adem\'as computa los caminos mas cortos si nuestro grafo es ponderado. El algoritmo se construye de una manera incremental, en donde se hacen estimaciones de los caminos m\'as cortos entre dos v\'ertices hasta llegar a la soluci\'on \'optima \cite{elisa}.
+
+ Floyd-Warshall es un algoritmo b\'asico de alcance que adem\'as computa los caminos mas cortos si nuestro grafo es ponderado. El algoritmo se construye de una manera incremental, en donde se hacen estimaciones de los caminos m\'as cortos entre dos v\'ertices hasta llegar a la soluci\'on \'optima \cite{elisa}.
  \\
  
 \begin{lstlisting}
@@ -81,7 +82,8 @@ def floyd_warshall (self):
 		return d
 	
 \end{lstlisting}
-Para su complejidad vemos que el algoritmo tiene tres ciclos de \textit{for} por lo que su complejidad se va a $O(V)^3$. Este tipo de algoritmo es completamente dependiente de los n\'umeros de vertices de los grafos, por lo que lo hace especialmente util para ciertos tipos de grafos, mientras que en otros esto no nos ayuda en mucho \cite{floyd2}.
+
+Para su complejidad vemos que el algoritmo tiene tres ciclos de \textit{for} por lo que su complejidad se va a $O(V)^3$. Este tipo de algoritmo es completamente dependiente de los n\'umeros de vertices de los grafos, por lo que lo hace especialmente util para ciertos tipos de grafos, mientras que en otros esto no nos ayuda en mucho \cite{floyd2}.
 
 
 La pregunta que se puede formular es si el algoritmo Floyd-Warshall es bueno para los algoritmos que contienen muchas aristas conectando sus vertices, o uno de pocas aristas. La respuesta seria en un grafo con mas aristas, ya que el objetivo de este algoritmo es encontrar los caminos mas cortos que pueda unir todos los pares de vertices\cite{floyd1}. 
@@ -193,20 +195,38 @@ if di > 2:
 \end{lstlisting}
 
 \begin{figure*}[h!] 
-\includegraphics[]{TiempoNoDirFinal.pdf}
+\includegraphics[width = 1\textwidth]{Nodos2.eps}
+\caption{Dirigido y ponderado.}
+\label{td}
+\end{figure*}
+\break
+\begin{figure*}[h!] 
+\includegraphics[width = 1\textwidth]{Nodos3.eps}
+\caption{Ponderado, sin direccion}
+\label{td}
+\end{figure*}
+
+\break
+
+\begin{figure*}[h!] 
+\includegraphics[width = 1\textwidth]{TiempoNoDirFinal.pdf}
 \caption{Tiempo no dirigido}
 \label{tnd}
 \end{figure*}
-
+\break
 \begin{figure*}[h!] 
-\includegraphics[]{TiempoDirFinal.pdf}
+\includegraphics[width = 1\textwidth]{TiempoDirFinal.pdf}
 \caption{Tiempo dirigido}
 \label{td}
 \end{figure*}
- 
+
 \break
 
+
 \section*{Conclusi\'on}
+
+Para finalizar, si se realiza una revisi\'on de las gr\'aficas resultantes, podemos ver que el tiempo de ejecuci\'on si aumenta de manera significativa. En la gr\'afica que se muestra en este reporte solamente llegamos a analizar 95 nodos, y la curva que se hizo si se pronunci\'o. En casos reales, supongo que no se van a utilizar una menor cantidad de 1000 nodos, lo cual podría costar bastante trabajo computacional.Este reporte fue una buena introducción para los distintos algoritmos de alcance que existen, y cual es su funcionamiento, ya que en otras clases de optimizaci\'on se ha iniciado el estudio de este tipo de grafos, cortes y caminos, pero poderlos aterrizar a manera de algoritmos, ha ayudado a su mejor entendimiento.
+
 
 \begin{thebibliography}{5}
 \bibitem{reporte} \textsc{Berrones Reyes, Mayra Cristina} \textit{Reporte2. Marzo 2018}
