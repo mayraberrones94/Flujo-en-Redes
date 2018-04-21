@@ -15,7 +15,8 @@ class Grafo:
 		self.A = [] #para las aristas
 		self.archivo = None # donde guardo mis puntos
 		self.pesos = []
-
+        self.posicion = (0.5, 0.5)
+        self.radio = 0.1
 		self.nodos = [] #conjunto que ocupo para los puntos finales.
 
 	def puntos (self, num):
@@ -94,7 +95,7 @@ class Grafo:
 			print('set yrange [-.1:1.1]', file = salida)
 			for n in range(len(self.P)):
 				print('set label', "'" , int(self.P[n][2]), "'", 'at', self.P[n][0], ",", self.P[n][1],  file = salida )
-				#print('set object circle at ', self.P[n][0], ',' , self.P[n][1], ' size scr 0.01 fc rgb "navy" ' , file = salida)
+				print('set object circle at ', self.P[n][0], ',' , self.P[n][1], ' size scr 0.01 fc rgb "navy" ' , file = salida)
 			id = 1
 			for i in range(len(self.A)):
 				dist = self.distancia(self.A[i][0], self.A[i][1], self.A[i][2], self.A[i][3])
