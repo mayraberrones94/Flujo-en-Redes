@@ -51,6 +51,7 @@ class Grafo:
 					self.A.append((x1, y1, x2, y2, u, v))
 
 
+
 	def graficar (self, eps = True):
 		with open("nodos.plot", 'w') as salida:
 			if eps:

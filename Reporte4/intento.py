@@ -6,18 +6,12 @@ class Grafo:
 
 	def __init__(self):
 		self.V = set()
-		self.E = dict()
 		self.vecinos = dict()
 		self.aristas = dict()
 		self.n = None
 		self.k = None
-		self.techo = None
-
 		self.P = []
-		self.A = []
-		self.B = []
 		self.nodos = []
-
 		self.nod2 = []
 		self.nod3 = []
 
@@ -31,19 +25,19 @@ class Grafo:
 				x = sin(th*i)
 				y = cos(th*i)
 				self.P.append((x, y, i))
-
+				self.nodos.append((x,y))
 				print (x, y, i, file = salida)
 
 	def k_conect(self, k):
 		for uno in range(1, k +1):
 			for dos in range(0, self.n):
-				u = self.P[dos]
-				v = self.P[dos - uno]
+				u = self.nodos[dos]
+				v = self.nodos[dos - uno]
 				self.aristas[(u, v)] = self.aristas[(v, u)] = uno
 				self.agrega(u)
 				self.agrega(v)
-				self.vecinos[v].add(u)
 				self.vecinos[u].add(v)
+				self.vecinos[v].add(u)
 
 
 	def agrega (self, v):
@@ -73,7 +67,57 @@ class Grafo:
 					self.agrega((x2, y2))
 					self.vecinos[(x1, y1)].add((x2, y2))
 					self.vecinos[(x2, y2)].add((x1, y1))
-					self.A.append((x1, y1, x2, y2, u, v))
+
+
+	def floyd_warshall (self): 
+		self.d = {}
+		for (x,y) in self.nodos:
+			self.d[((x, y), (x, y))] = 0 # distancia reflexiva es cero
+			for u in self.vecinos[(x, y)]: # para vecinos, la distancia es el peso
+				self.d[((x,y),u)] = self.aristas[((x,y),u)]
+		for intermedio in self.nodos:
+			for desde in self.nodos:
+				for hasta in self.nodos:
+					di = None
+					if (desde, intermedio) in self.d:
+						di = self.d[(desde, intermedio)]
+					ih = None
+					if (intermedio, hasta) in self.d:
+						ih = self.d[(intermedio, hasta)]
+					if di is not None and ih is not None:
+						c = di + ih # largo del camino via "i"
+						if (desde, hasta) not in self.d or c < self.d[(desde, hasta)]:
+							self.d[(desde, hasta)] = c # mejora al camino actual
+		with open("Warshall.dat", "at") as archivo:
+			print(self.d, file = archivo)
+		return self.d
+
+	def argdist(self):
+		self.sumaDist = 0
+		for i in self.d:
+			self.sumaDist += self.d[i]
+		self.promDist = self.sumaDist/len(self.d)
+		self.promDist2 = self.sumaDist/((self.n * (self.n - 1))/ 2)
+		self.arg = self.promDist / (self.n - 1)
+		self.arg2 = self.promDist2 / (self.n - 1)
+		print(self.arg)
+		print(self.promDist)
+		print(self.arg2)
+		print(self.promDist2)
+
+	def clustercoef (self):
+		cluster = 0
+		for nodo in self.vecinos:
+			m = 0
+			for i in self.vecinos[nodo]:
+				for j in self.vecinos[nodo]:
+					if i in self.vecinos[j]:
+						m+=1
+			n = len(self.vecinos[nodo])
+			if n >1:
+				cluster += m /(n * (n-1))
+		print (cluster / len(self.V))
+		return cluster/len(self.V)
 
 
 	def graficar (self, eps = True):
