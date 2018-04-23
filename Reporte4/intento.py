@@ -98,11 +98,8 @@ class Grafo:
 		self.sumaDist = 0
 		for i in self.d:
 			self.sumaDist += self.d[i]
-		#self.promDist = self.sumaDist/len(self.d)
 		self.promDist2 = self.sumaDist/((self.n * (self.n - 1))/ 2)
-		#self.arg = self.promDist / (self.n - 1)
 		self.arg2 = self.promDist2 / (self.n - 1)
-
 		with open("Prom_dis.csv", 'a') as salida:
 			print(self.arg2, file = salida)
 

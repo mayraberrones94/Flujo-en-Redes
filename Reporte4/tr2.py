@@ -18,3 +18,4 @@ with open("Tiempoargv.csv", 'at') as salida:
 				print(time.clock() - Tiempo1, file = salida)
 				p.clustercoef()
 				print(time.clock() - Tiempo1, file = dato)
+				
