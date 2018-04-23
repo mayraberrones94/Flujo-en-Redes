@@ -60,13 +60,13 @@ Para este reporte se estarán utilizando tanto nuevos conceptos, como los que ya 
 En este caso, hablaremos de agrupamientos en relación con los grafos que se han estado realizando a lo largo del semestre.
 \\
 
-El segundo concepto que estaremos visitando, es de la densidad de nuestro grafo. Esto lo iremos desarrollando a lo largo de este trabajo, basándonos en el número de aristas que conectan a los nodos, así como de algunos cálculos de promedios que se explicarán mas adelante.
+El segundo concepto que estaremos visitando, es de la densidad de nuestro grafo. Esto se irá desarrollando a lo largo de este trabajo, basándonos en el número de aristas que conectan a los nodos, así como de algunos cálculos de promedios que se explicarán más adelante.
 
 \section*{Modificación del grafo principal}
 
-Primeramente, iniciamos con una nueva forma del grafo. Ya no simplemente hacemos que los nodos se acomoden de manera aleatoria a lo ancho y largo del plano, si no que se les da un acomodo circular para poder apreciar mejor las conexiones que se tienen entre ellos y poder hacer un análisis mas a fondo de el porque de estas conexiones.
+Primeramente, iniciamos con una nueva forma del grafo. Ya no simplemente hacemos que los nodos se acomoden de manera aleatoria a lo ancho y largo del plano, si no que se les da un acomodo circular para poder apreciar mejor las conexiones que se tienen entre ellos y poder hacer un análisis más a fondo del porqué de estas conexiones.
 \\
-La forma circular de los nodos se logró gracias al siguiente extracto de código, que se tomó del archivo intento.py.
+La forma circular de los nodos se logró gracias al siguiente extracto de código, que se tomó del archivo \textit{intento.py}.
 
 
 \begin{lstlisting}
@@ -86,7 +86,7 @@ La forma circular de los nodos se logró gracias al siguiente extracto de código,
 				print (x, y, i, file = salida)
 \end{lstlisting}
 
-A grandes rasgos, lo que queremos recalcar aquí, es el hecho de que se utilizaron las funciones de la librería de MATH de Python para poder utilizar las funciones del seno y coseno, lo que facilito mucho mas poder posicionar los nodos en su forma circular.
+A grandes rasgos, lo que queremos recalcar aquí, es el hecho de que se utilizaron las funciones de la librería de \textit{math} de \textit{Python} para poder utilizar las funciones del \textit{seno} y \textit{coseno}, lo que facilito mucho más poder posicionar los nodos en su forma circular.
 
 
 \begin{figure*}[h!] 
@@ -98,10 +98,10 @@ A grandes rasgos, lo que queremos recalcar aquí, es el hecho de que se utilizaro
 
 \section*{Conexiones principales y secundarias}
 
-Antes de iniciar con los conceptos de agrupamiento y densidad que se mencionaban al inicio de este reporte, para realizar las conexiones de los nodos se realizara una variación de lo que se hacia en reportes anteriores. Por ejemplo, en el reporte 3() se tomaba una probabilidad al azar gracias a un numero que se le asignaba con la herramienta Random() de Python, y dependiendo de este numero aleatorio, era la cantidad de aristas que estarían asignadas a cada nodo.
+Antes de iniciar con los conceptos de agrupamiento y densidad que se mencionaban en la parte de introducción, para realizar las conexiones de los nodos se realizará una variación de lo que se hacía en reportes anteriores. Por ejemplo, en el reporte 3 \cite{reporte }se tomaba una probabilidad al azar gracias a un número que se le asignaba con la herramienta \textit{Random()} de \textit{Python}, y dependiendo de este número aleatorio, era la cantidad de aristas que estarían asignadas a cada nodo.
 \\
-En dicho reporte, también manejábamos direcciones y pesos. Esto se deja un poco de lado en este reporte. Lo que rescatamos de aquí un poco, es la forma de unir los nodos.
-Primeramente, tomaremos un valor K, el cual se tiene que asignar un valor mas bajo que la mitad de los nodos totales por el siguiente motivo. El objetivo de esta variable K es juntar a un nodo con su k- esimo vecino por ambos lados. Si tenemos, por ejemplo, un grafo de 10 nodos, y queremos darle una k de 6, esto seria redundante, ya que ya existiría una arista que esta uniendo a los últimos nodos que se quisieran emparejar.
+En dicho reporte, también manejábamos direcciones y pesos. Esto se deja un poco de lado en este trabajo. Lo que rescatamos de aquí un poco, es la forma de unir los nodos.
+Primeramente, tomaremos un valor K, el cual se tiene que asignar un valor más bajo que la mitad de los nodos totales por el siguiente motivo. El objetivo de esta variable K es juntar a un nodo con su k- ésimo vecino por ambos lados. Si tenemos por ejemplo, un grafo de 10 nodos y queremos darle una k de 6, esto sería redundante ya que ya existiría una arista que está uniendo a los últimos nodos que se quisieran emparejar.
 
 \begin{lstlisting}
 
@@ -122,9 +122,9 @@ Primeramente, tomaremos un valor K, el cual se tiene que asignar un valor mas ba
 
 \end{lstlisting}
 
-Como se menciono, el peso y dirección no importan para este grafo, por lo que si conecto un nodo a, con un nodo b, entonces a es vecino de b, como b es vecino de a.
+Como se mencionó, el peso y dirección no importan para este grafo, por lo que si conecto un nodo a, con un nodo b, entonces a es vecino de b, como b es vecino de a.
 
-Una vez que entendemos este concepto podemos pasar a la siguiente forma de conexión. Se realizara una revisión para los nodos que no están conectados, y ahora si, como se aplicaba en reportes anteriores, se hace uso de una variable aleatoria con la cual voy a decidir que nodos voy a unir si la variable k no logro unirlos.
+Una vez que entendemos este concepto podemos pasar a la siguiente forma de conexión. Se realizará una revisión para los nodos que no están conectados, y ahora si como se aplicaba en reportes anteriores \cite{reporte}, se hace uso de una variable aleatoria con la cual voy a decidir que nodos voy a unir si la variable k no logro unirlos.
 
 Una vez que tenemos un grafo de esta manera, podemos continuar.
 
@@ -137,7 +137,7 @@ Una vez que tenemos un grafo de esta manera, podemos continuar.
 
 \section*{Densidad del grafo y agrupamiento}
 
-En este caso, se agregaron dos funciones al programa intento.py, que tiene funciones parecidas a los trabajos anteriores en cuanto a vecindades, vértices y aristas. Para poder realizar la parte de densidad, hacemos uso primero de la función que se utilizo en el Reporte 2, floyd-warshall \cite{reporte}
+En este caso, se agregaron dos funciones al programa intento.py, que tiene funciones parecidas a los trabajos anteriores en cuanto a vecindades, vértices y aristas. Para poder realizar la parte de densidad, hacemos uso primero de la función que se utilizó en el Reporte 3, \textit{floyd-warshall} \cite{reporte}
 Estas líneas de código nos darán como resultado una formación de los nodos con las aristas que los unen, y de esta manera podemos sacar un promedio general de su densidad.
 
 \begin{lstlisting}
@@ -154,11 +154,11 @@ Estas líneas de código nos darán como resultado una formación de los nodos con l
 
 \end{lstlisting}
 
-En este caso, lo que utilizamos del del floyd-warshall es la información que nos proporciona el self.d. Con esto sumamos la distancia, y al final lo dividimos por una cota superior. En este caso, se eligió decir como cota superior el numero total de nodos menos uno. La razón es que, el peor de los casos es que los nodos se encuentren conectados solamente por una arista uno entre otro, por lo cual, para poder recorrer todo el grafo, tiene que pasar estrictamente por un solo camino hasta llegar al nodo inicial.
+En este caso, lo que utilizamos del del algoritmo floyd-warshall es la información que nos proporciona el self.d. Con esto sumamos la distancia, y al final lo dividimos por una cota superior. En este caso, se eligió decir como cota superior el número total de nodos menos uno. La razón para este razonamiento es que, el peor de los casos es que los nodos se encuentren conectados solamente por una arista uno entre otro, por lo cual para poder recorrer todo el grafo tiene que pasar estrictamente por un solo camino hasta llegar al nodo inicial.
 
 
 
-En el caso del agrupamiento es un tema un poco mas complicado de explicar. Lo que se nos pedía era, tomar un nodo x, revisar cuales eran los vecinos con los que estaba conectado, y después hacer una revisión de, si removíamos dicho nodo x, cuantas aristas quedaban conectadas entre los nodos vecinos (las aristas que tenia conectadas a x ya no cuentan). Después, hacer un promedio general de cada uno de los nodos, para saber el nivel de conectividad que existe entre los nodos.
+En el caso del agrupamiento es un tema un poco más complicado de explicar. Lo que se nos pedía era, tomar un nodo x, revisar cuales eran los vecinos con los que estaba conectado, y después hacer una revisión de si removíamos dicho nodo x, cuantas aristas quedaban conectadas entre los nodos vecinos (las aristas que tenia conectadas a x ya no cuentan). Después, hacer un promedio general de cada uno de los nodos, para saber el nivel de conectividad que existe entre los nodos.
 
 \begin{lstlisting}
 	def clustercoef (self):
@@ -218,7 +218,7 @@ Para este caso se tuvo que realizar un extracto de la información que arrojaba e
 
 \begin{figure*}[h!] 
 \includegraphics[width = 1\textwidth]{Diagrama31.eps}
-\caption{Gráfica de distancia y densidad de un extracto de las corridas. El grafo utilizado fue de 10 nodos, y la k se quedo en un valor bajo de 2. La linea azul representa el promedio de agrupamiento, mientas que el rojo es el promedio de distancia.}
+\caption{Gráfica de distancia y densidad de un extracto de las corridas. El grafo utilizado fue de 10 nodos, y la k se quedó en un valor bajo de 2. La linea azul representa el promedio de agrupamiento, mientas que el rojo es el promedio de distancia.}
 \label{td}
 \end{figure*}
 
@@ -231,7 +231,7 @@ Para este caso se tuvo que realizar un extracto de la información que arrojaba e
 
 \section*{Conclusiones}
 
-Este tipo de problemas y la manera en que se nos planteo, es una manera bastante interesante de darnos cuenta de que manera se puede utilizar el algoritmo de floyd-warshall, asi como también ir tomando una idea de cómo funciona el agrupamiento, y los posibles resultados de tener que remover tal o cual nodo.
+Este tipo de problemas y la manera en que se nos planteo, es una manera bastante interesante de darnos cuenta de que manera se puede utilizar el algoritmo de floyd-warshall, así como también ir tomando una idea de cómo funciona el agrupamiento, y los posibles resultados de tener que remover tal o cual nodo.
 
 
 
@@ -239,7 +239,7 @@ En cuanto a dificultad, la parte de tener que realizar los promedios de las dist
 
 
 
-En el tema del agrupamiento, fue un tema un poco mas complicado, ya que a primeras impresiones, y en los primeros intentos de los programas que se realizaron para este reporte, había una sensación de que estaba quitando una pieza importante, y esto me dejaba buscando a ciegas las partes que iban emparejadas con este, pero una vez que se experimentó con grafos pequeños, imprimiendo los vecinos para cerciorar cada paso, fue mas sencillo captar la idea.
+En el tema del agrupamiento, fue un tema un poco mas complicado, ya que a primeras impresiones, y en los primeros intentos de los programas que se realizaron para este reporte, había una sensación de que se estaba quitando una pieza importante, y esto dejaba buscando a ciegas las partes que iban emparejadas con este, pero una vez que se experimentó con grafos pequeños, imprimiendo los vecinos para cerciorar cada paso, fue mas sencillo captar la idea.
 
 \begin{thebibliography}{X}
 \bibitem{reporte} \textsc{Berrones Reyes, Mayra Cristina} \textit{Reporte3. Marzo 2018}
