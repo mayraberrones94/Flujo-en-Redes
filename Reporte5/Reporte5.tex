@@ -1,0 +1,281 @@
+
+\documentclass[spanish]{article}% use option titlepage to get the title on a page of its own.
+\usepackage{cite}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage{subfig}
+
+\usepackage[T1]{fontenc}
+\usepackage{selinput}
+\SelectInputMappings{%
+  aacute={á},
+  ntilde={ñ},
+  Euro={¤}
+}
+\usepackage{babel}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=Python,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+\begin{document}
+
+\begin{titlepage}
+	\begin{center}
+	\line(1,0) {300} \\
+	\huge{\textbf{Optimización de Flujo en Redes: Reporte 5}}
+	\line(1,0) {300}\\
+	
+	\textsc{ \Large Mayra Cristina Berrones Reyes.  6291}\\ 
+	\textsc{\Large Mayo 2018} \\
+	\end{center}
+\end{titlepage}
+
+\section*{Introducción}
+
+Para este reporte se abordan temas nuevos, así como algunos de los temas que ya hemos estado conociendo en reportes anteriores \cite{reporte4}. En cuanto a temas nuevos, nos referimos a las distancias Manhattan, que en este caso podemos definir como la distancia entre dos puntos de una malla de nodos en un camino estrictamente horizontal o vertical (dentro de las líneas de la malla), opuesto a las líneas o distancias diagonales. La distancia Manhattan es la suma simple de sus componentes verticales y horizontales, y en donde las líneas diagonales pueden ser realizadas por medio del teorema de Pitágoras, como se ha realizado en reportes anteriores.\cite{man}
+\\
+
+En este reporte se utilizara las distancias Manhattan para encontrar el flujo máximo que podemos pasar de un punto de inicio a un punto final de la malla, tomando estos puntos como vértices opuestos dentro de la malla de nodos. Para encontrar el flujo máximo se utilizó uno de los algoritmos que ya se han visto con anterioridad y puesto en práctica. El algoritmo de Ford-Fulkerson. 
+\\
+
+Como breve repaso, el algoritmo de Ford-Fulkerson propone buscar caminos en los que se pueda aumentar el flujo, hasta que se alcance el flujo máximo. Considérese cualquier camino dirigido del origen al destino en la red de flujos. Sea $x$ la mínima de las capacidades de las aristas no usadas en el camino. Es posible incrementar el flujo de la red al menos en $x$, incrementando el flujo de las aristas del camino en dicho monto. De esta forma se obtiene el primer intento de flujo en la red. Luego debemos encontrar otro camino, incrementar el flujo en el camino, y continuar hasta que todos los caminos del origen al destino tengan al menos una arista llena (el flujo usa toda la capacidad de la arista).\cite{ford}
+\\
+
+En este reporte se tomara como referencia el código de camino y Ford-Fulkerson que se vio en el Reporte 3, \cite{reporte} en el que nos basamos de la página de la Dra. Elisa, \cite{elisa} con algunas modificaciones para poder introducir nuestro nuevo grafo en forma de malla.
+
+\section*{Modificación del grafo principal}
+
+Al igual que como se realizó en el Reporte 4\cite{reporte4} se modificó la forma y la estructura de los nodos para poder realizar esta práctica. Primero re-acomodamos los nodos de manera que estuvieran representados en una distancia equidistante unos de otros, de manera rectangular. Para esto seleccionamos una variable $k$ la cual representaría el numero de nodos por lado que tendría nuestra malla. Viéndolo como un cubo, nuestro numero de nodos final seria el de la variable $k$ elevado al cuadrado.
+
+
+\begin{lstlisting}
+#Extracto de código de clase Grafo()
+	def puntos(self, k):
+		self.k = k
+		with open("grafica.dat", 'w') as salida:
+			for x in range(0, k):
+				for y in range(0, k):
+					self.nodos.append((x, y))
+					if x==0 and y==k-1:
+						print(x, y, 1, file = salida)
+					elif x==k-1 and y==0:
+						print(x, y, 6, file = salida)
+					else:
+						print(x, y, 7, file = salida)
+
+\end{lstlisting}
+
+
+\begin{figure*}[h!] 
+\includegraphics[width = 1\textwidth]{nodos.eps}
+\caption{Nodos acomodados a manera de malla dentro del plano. La variable $k$ en este caso es 5. Para diferenciar el nodo de inicio y el nodo final se les dieron distintos colores.}
+\label{td}
+\end{figure*}
+
+Ahora, para las conexiones se utilizaron dos tipos diferentes de caminos. Como se habló en la introducción, la base de las distancias Manhattan son aquellas que van de manera horizontal y vertical de manera estricta. En este caso usaremos la variable de $l$ para darle valor normal a estas distancias. Pero también tenemos las distancias que aleatorias, que son las que se expresan de manera diagonal. 
+\\
+
+En este caso queremos darle un flujo exponencial, para que crucen el grafo de nodo a nodo de distinta manera al de la distancia Manhattan. Con eso podemos hacer que viaje de manera diagonal, vertical y horizontal (incluso si hace un salto de muchos nodos). En este caso, queremos que estas líneas aleatorias sean pocas por entre el grafo, por lo que se les dará una probabilidad pequeña, y se le dan restricciones de que no deben viajar directamente desde el nodo inicial hasta el final, simplemente para que nuestro grafo nos de mas información al momento de utilizarlo.
+
+\begin{lstlisting}
+#Extracto de código de clase Grafo()
+
+	def conexiones(self, l):
+		self.l = l
+		with open ("conexiones.dat", 'w') as salida:
+			for i in self.nodos:
+				for j in self.nodos:
+					if i is not j:
+						if distancia (i, j) < l +1:
+							self.aristas[i, j] = self.aristas[j, i] = floor(normalvariate(4, 0.5))+1
+
+	def aleatorio(self, proba):
+		self.rand = 0
+		for i in self.nodos:
+			for j in self.nodos:
+				if i is not j:
+					if j is not self.nodos[0]:
+						w = random()
+						if w < proba and (i, j) not in self.aristas:
+							self.aristas[i, j] = ceil(expovariate(.1))
+							self.rand += 1
+
+\end{lstlisting}
+
+En el código anterior podemos apreciar que utilizamos la herramienta de $normalvariate$ y $expovariate$ de la librería de $random$ para darles la cantidad de flujo a cada una de las aristas.
+
+\begin{figure*}[h!] 
+\includegraphics[width = 1\textwidth]{azul.eps}
+\caption{Conexiones de la malla. Las líneas negras representan las distancias Manhattan, mientras de las líneas azules representan las distancias exponenciales que se seleccionaron aleatoriamente. La variable $l$ es de 1, mientras que la probabilidad que se le dio fue de 0.002.}
+\label{td}
+\end{figure*}
+
+\section*{Percolaciones}
+
+Nuevamente, tenemos un nuevo reto dentro de esta práctica. Por la forma en que esta hecho el grafo, el algoritmo de Ford-Fulkerson tarda de poco a nada de tiempo en encontrar el camino con mayor cantidad de flujo. En esta sección se juega un poco con la cantidad de aristas y nodos que tenemos en el grafo, para poder apreciar como impacta esto en el tiempo de procesamiento al momento de querer correr el algoritmo de Ford-Fulkerson en él.
+\\
+
+A continuación se presentan ejemplos en grafos con pequeña cantidad de nodos. 
+
+\section*{Percolación de aristas}
+Para la percolación de aristas, para no demorar demasiado tiempo para ver resultados contundentes en sus grafos, se fueron quitando de mas de una por una. 
+
+
+\begin{lstlisting}
+#Extracto de código de clase Grafo()
+
+def perAristas(self, o):
+		for i in range(0, 15):
+			y = randint(1, len(self.nodos) - 1)
+			num = randint(1, len(self.nodos) - 1)
+			if y is not num:
+				if num is not self.nodos[0]:
+					if ((self.nodos[num][0],self.nodos[num][1]), (self.nodos[y][0],self.nodos[y][1])) in self.aristas:
+						del self.aristas[(self.nodos[num][0],self.nodos[num][1]), (self.nodos[y][0],self.nodos[y][1])]
+					if ((self.nodos[y][0],self.nodos[y][1]), (self.nodos[num][0],self.nodos[num][1])) in self.aristas:
+						del self.aristas[(self.nodos[y][0],self.nodos[y][1]), (self.nodos[num][0],self.nodos[num][1])]
+						
+\end{lstlisting}
+
+El rango que se alcanza a apreciar en las líneas de código fue mas que nada porque en ambos casos de las coordenadas de nodos estamos utilizando números aleatorios, por lo que no todas las aristas que consultábamos existían, y al final solo terminaban quitando una o dos por iteración.
+\\
+
+A continuación se presentan los ejemplos de grafos con los que se fueron quitando varias aristas.
+
+\begin{figure}
+ \centering
+  \subfloat[Grafo p. de aristas 1]{
+   \label{f:Arista1}
+    \includegraphics[width=0.5\textwidth]{a1.eps}}
+  \subfloat[Grafo p. de aristas 2]{
+   \label{f:Arista2}
+    \includegraphics[width=0.5\textwidth]{a2.eps}}
+    \vspace{10mm}
+  \subfloat[Grafo p. de aristas 3]{
+   \label{f:Arista3}
+    \includegraphics[width=0.5\textwidth]{a3.eps}}
+    \subfloat[Grafo p. de aristas 4]{
+   \label{f:Arista5}
+    \includegraphics[width=0.5\textwidth]{a4.eps}}
+    \vspace{10mm}
+      \subfloat[Grafo p. de aristas 5]{
+   \label{f:Arista5}
+    \includegraphics[width=0.5\textwidth]{a5.eps}}
+ \caption{Grafos para percolación de aristas. Los flujos correspondientes a cada uno fueron constantes de 8, 8, 8, 8, y solo al final 4}
+ \label{f:Percolación Aristas}
+ 
+\end{figure}
+\clearpage
+\section*{Percolación de nodos}
+
+En este caso, lo que queremos ver es como afectaría quitar un nodo de la vecindad de la malla, y por consecuencia, las aristas que le acompañan.  En este caso nuestra teoría es que va a ser mas tardado en estos casos conforme se van quitando los nodos, o que el flujo va a tender mas rápido a cero porque se le quitan muchos caminos de manera simultánea. Al igual que en el caso anterior, se muestra un ejemplo de pocos nodos y en este caso, si se van quitando de uno por uno en cada una de las iteraciones.
+
+\begin{lstlisting}
+#Extracto de código de clase Grafo()
+def perNodos(self,o):
+		num = randint(1, len(self.nodos) - 2)	
+		if num != self.nodos[len(self.nodos) - self.k -1] and num != self.nodos[self.k -1]:
+			for y in range (len(self.nodos)):
+				if ((self.nodos[num][0],self.nodos[num][1]), (self.nodos[y][0],self.nodos[y][1])) in self.aristas:
+					del self.aristas[(self.nodos[num][0],self.nodos[num][1]), (self.nodos[y][0],self.nodos[y][1])]
+				if ((self.nodos[y][0],self.nodos[y][1]), (self.nodos[num][0],self.nodos[num][1])) in self.aristas:
+					del self.aristas[(self.nodos[y][0],self.nodos[y][1]), (self.nodos[num][0],self.nodos[num][1])]
+			self.nodos.pop(num)
+		with open("grafica"+str(o)+".dat", 'w') as salida:
+			for (x,y) in self.nodos:
+				if x==0 and y==self.k -1:
+					print(x, y, 1, file = salida)
+				elif x==self.k-1 and y==0:
+					print(x, y, 6, file = salida)
+				else:
+					print(x, y, 7, file = salida)
+\end{lstlisting}
+ 
+ En el caso de la percolación de los nodos, se tuvo un poco mas de cuidado al momento de seleccionar cuales eran los nodos que se iban a quitar, evitando seleccionar el nodo de inicio y el nodo final, para que el recorrido pudiera seguir su trayecto por el mayor tiempo posible.
+
+\begin{figure}
+ \centering
+  \subfloat[Grafo p. de nodos 1]{
+   \label{f:Nodo1}
+    \includegraphics[width=0.5\textwidth]{n1.eps}}
+  \subfloat[Grafo p. de nodos 2]{
+   \label{f:Nodo2}
+    \includegraphics[width=0.5\textwidth]{n2.eps}}
+    \vspace{10mm}
+  \subfloat[Grafo p. de nodos 3]{
+   \label{f:Nodo3}
+    \includegraphics[width=0.5\textwidth]{n3.eps}}
+    \subfloat[Grafo p. de nodos 4]{
+   \label{f:Nodo4}
+    \includegraphics[width=0.5\textwidth]{n4.eps}}
+    \vspace{10mm}
+      \subfloat[Grafo p. de nodos 5]{
+   \label{f:Nodo5}
+    \includegraphics[width=0.5\textwidth]{n5.eps}}
+ \caption{Grafos para percolación de nodos. Los flujos correspondientes a cada uno fueron de 10, 9, 8, 8 y 4.}
+ \label{f:Percolación Nodos}
+ 
+\end{figure}
+\clearpage
+\section*{Resultados}
+
+Para esta última fase de resultados, lo que buscamos es ver los valores en cuanto al tiempo de compilación, tanto en la forma de quitar caminos por medio de la percolación de nodos, como con la percolación de aristas.
+
+
+\begin{figure*}[h!] 
+\includegraphics[width = 1\textwidth]{desviacion.eps}
+\caption{Caja bigote de los tiempos de percolación por nodos. En todos los casos, los grafos contaban con una $k$ con valor de 20, una $l$ con valor de 3, y una probabilidad de 0.003.}
+\label{td}
+\end{figure*}
+
+\begin{figure*}[h!] 
+\includegraphics[width = 1\textwidth]{desviacion2.eps}
+\caption{Caja bigote de los tiempos de percolación por nodos. En todos los casos, los grafos contaban con una $k$ con valor de 10, una $l$ con valor de 2, y una probabilidad de 0.003.}
+\label{td}
+\end{figure*}
+
+\clearpage
+\begin{thebibliography}{X}
+
+\bibitem{reporte} \textsc{Berrones Reyes, Mayra Cristina} \textit{Reporte3. Marzo 2018}
+\bibitem{reporte4} \textsc{Berrones Reyes, Mayra Cristina} \textit{Reporte4. Marzo 2018}
+\bibitem{elisa} \textsc{Schaeffer, Elisa} \textit{https://elisa.dyndns-web.com/teaching/mat/discretas/md.html} \textsc{Matem\'aticas Discretas. Grafos y \'arboles.}  \textbf{Consultado en Abril 2018}
+
+\bibitem{ford} \textsc{Algoritmo Ford-Fulkerson} \textit{Flujos Máximos. https://flujomaximo.wikispaces.com} \textbf{Consultado Mayo 2018}
+\bibitem{man} \textsc{Distancias Manhattan} \textit{Wikitionary. https://en.wiktionary.org/wikiManhattan.distance.} \textbf{Consultado Mayo 2018}
+
+\end{thebibliography}
+
+\end{document} 
+
+
+
+
+
+
+
+
+
+
+
+

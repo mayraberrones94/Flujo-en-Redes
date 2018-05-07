@@ -47,7 +47,7 @@ class Grafo:
 
 	def perNodos(self,o):
 		num = randint(1, len(self.nodos) - 2)	
-		if num != self.nodos[0] and num != self.nodos[len(self.nodos) - 1]:
+		if num != self.nodos[len(self.nodos) - self.k -1] and num != self.nodos[self.k -1]:
 			for y in range (len(self.nodos)):
 				if ((self.nodos[num][0],self.nodos[num][1]), (self.nodos[y][0],self.nodos[y][1])) in self.aristas:
 					del self.aristas[(self.nodos[num][0],self.nodos[num][1]), (self.nodos[y][0],self.nodos[y][1])]
@@ -64,7 +64,7 @@ class Grafo:
 					print(x, y, 7, file = salida)
 
 	def perAristas(self, o):
-		for i in range(0, 20):
+		for i in range(0, 2):
 			y = randint(1, len(self.nodos) - 1)
 			num = randint(1, len(self.nodos) - 1)
 			if y is not num:
@@ -106,7 +106,7 @@ class Grafo:
 			self.file = "FulkersonAristas.csv"
 
 		with open (self.file, 'at') as salida:
-			self.s = self.nodos[self.k**2-self.k]
+			self.s = self.nodos[len(self.nodos) - self.k -1]
 			self.t = self.nodos[self.k - 1]
 
 			if self.s == self.t:
@@ -146,6 +146,8 @@ class Grafo:
 			print('set key off', file = salida)
 			print('set xrange [-1:', self.k , ']', file = salida)
 			print('set yrange [-1:', self.k , ']', file = salida)
+			print('unset xtics', file = salida)
+			print('unset ytics', file = salida)
 			id = 1
 			for z in self.aristas:
 				x1 = z[0][0]
@@ -158,17 +160,17 @@ class Grafo:
 				else:
 					print('set arrow', id, 'from', x1, ',', y1 , 'to', x2 , ',', y2 , 'head filled lw 1 lc 3', file = salida)
 				id += 1
-			print('plot "grafica'+str(m)+'.dat" using 1:2:3 with points pt 7 lc var ps 2  ', file = salida)
+			print('plot "grafica.dat" using 1:2:3 with points pt 7 lc var ps 2  ', file = salida)
 			print('quit()', file = salida)
 
 p = Grafo()
 p.puntos(5)
 p.conexiones(1)
-p.aleatorio(0.002)
+p.aleatorio(0.004)
 p.grafica(0)
 for i in range (1, 6):
-	p.perNodos(i)
-	print(p.ford_fulkerson(2))
+	p.perAristas(i)
+	print(p.ford_fulkerson(1))
 	p.grafica(i)
 
 

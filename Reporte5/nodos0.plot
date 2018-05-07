@@ -4,6 +4,8 @@ set size square
 set key off
 set xrange [-1: 5 ]
 set yrange [-1: 5 ]
+unset xtics
+unset ytics
 set arrow 1 from 0 , 0 to 0 , 1 nohead lw 2 
 set arrow 2 from 0 , 1 to 0 , 0 nohead lw 2 
 set arrow 3 from 0 , 0 to 1 , 0 nohead lw 2 
@@ -84,5 +86,8 @@ set arrow 77 from 4 , 2 to 4 , 3 nohead lw 2
 set arrow 78 from 4 , 3 to 4 , 2 nohead lw 2 
 set arrow 79 from 4 , 3 to 4 , 4 nohead lw 2 
 set arrow 80 from 4 , 4 to 4 , 3 nohead lw 2 
-plot "grafica0.dat" using 1:2:3 with points pt 7 lc var ps 2  
+set arrow 81 from 1 , 0 to 3 , 3 head filled lw 1 lc 3
+set arrow 82 from 2 , 2 to 0 , 2 head filled lw 1 lc 3
+set arrow 83 from 3 , 3 to 0 , 3 head filled lw 1 lc 3
+plot "grafica.dat" using 1:2:3 with points pt 7 lc var ps 2  
 quit()
