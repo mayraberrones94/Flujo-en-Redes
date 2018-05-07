@@ -61,11 +61,11 @@ En este reporte se utilizara las distancias Manhattan para encontrar el flujo má
 Como breve repaso, el algoritmo de Ford-Fulkerson propone buscar caminos en los que se pueda aumentar el flujo, hasta que se alcance el flujo máximo. Considérese cualquier camino dirigido del origen al destino en la red de flujos. Sea $x$ la mínima de las capacidades de las aristas no usadas en el camino. Es posible incrementar el flujo de la red al menos en $x$, incrementando el flujo de las aristas del camino en dicho monto. De esta forma se obtiene el primer intento de flujo en la red. Luego debemos encontrar otro camino, incrementar el flujo en el camino, y continuar hasta que todos los caminos del origen al destino tengan al menos una arista llena (el flujo usa toda la capacidad de la arista).\cite{ford}
 \\
 
-En este reporte se tomara como referencia el código de camino y Ford-Fulkerson que se vio en el Reporte 3, \cite{reporte} en el que nos basamos de la página de la Dra. Elisa, \cite{elisa} con algunas modificaciones para poder introducir nuestro nuevo grafo en forma de malla.
+En este reporte se tomará como referencia el código de camino y Ford-Fulkerson que se vio en el Reporte 3, \cite{reporte} en el que nos basamos de la página de la Dra. Elisa, \cite{elisa} con algunas modificaciones para poder introducir nuestro nuevo grafo en forma de malla.
 
 \section*{Modificación del grafo principal}
 
-Al igual que como se realizó en el Reporte 4\cite{reporte4} se modificó la forma y la estructura de los nodos para poder realizar esta práctica. Primero re-acomodamos los nodos de manera que estuvieran representados en una distancia equidistante unos de otros, de manera rectangular. Para esto seleccionamos una variable $k$ la cual representaría el numero de nodos por lado que tendría nuestra malla. Viéndolo como un cubo, nuestro numero de nodos final seria el de la variable $k$ elevado al cuadrado.
+Al igual que como se realizó en el Reporte 4\cite{reporte4} se modificó la forma y la estructura de los nodos para poder realizar esta práctica. Primero re-acomodamos los nodos de manera que estuvieran representados en una distancia equidistante unos de otros, de manera cuadrangular. Para esto seleccionamos una variable $k$ la cual representaría el número de nodos por lado que tendría nuestra malla. Viéndolo como un cubo, nuestro número de nodos final seria el de la variable $k$ elevado al cuadrado.
 
 
 \begin{lstlisting}
@@ -95,7 +95,7 @@ Al igual que como se realizó en el Reporte 4\cite{reporte4} se modificó la forma
 Ahora, para las conexiones se utilizaron dos tipos diferentes de caminos. Como se habló en la introducción, la base de las distancias Manhattan son aquellas que van de manera horizontal y vertical de manera estricta. En este caso usaremos la variable de $l$ para darle valor normal a estas distancias. Pero también tenemos las distancias que aleatorias, que son las que se expresan de manera diagonal. 
 \\
 
-En este caso queremos darle un flujo exponencial, para que crucen el grafo de nodo a nodo de distinta manera al de la distancia Manhattan. Con eso podemos hacer que viaje de manera diagonal, vertical y horizontal (incluso si hace un salto de muchos nodos). En este caso, queremos que estas líneas aleatorias sean pocas por entre el grafo, por lo que se les dará una probabilidad pequeña, y se le dan restricciones de que no deben viajar directamente desde el nodo inicial hasta el final, simplemente para que nuestro grafo nos de mas información al momento de utilizarlo.
+En este caso queremos darle un flujo exponencial, para que crucen el grafo de nodo a nodo de distinta manera al de la distancia Manhattan. Con eso podemos hacer que viaje de manera diagonal, vertical y horizontal (incluso si hace un salto de muchos nodos). En este caso, queremos que estas líneas aleatorias sean pocas por entre el grafo, por lo que se les dará una probabilidad pequeña, y se le dan restricciones de que no deben viajar directamente desde el nodo inicial hasta el final, simplemente para que nuestro grafo nos de más información al momento de utilizarlo.
 
 \begin{lstlisting}
 #Extracto de código de clase Grafo()
@@ -138,7 +138,7 @@ Nuevamente, tenemos un nuevo reto dentro de esta práctica. Por la forma en que e
 A continuación se presentan ejemplos en grafos con pequeña cantidad de nodos. 
 
 \section*{Percolación de aristas}
-Para la percolación de aristas, para no demorar demasiado tiempo para ver resultados contundentes en sus grafos, se fueron quitando de mas de una por una. 
+Para la percolación de aristas, para no demorar demasiado tiempo para ver resultados contundentes en sus grafos, se fueron quitando de más de una por una. 
 
 
 \begin{lstlisting}
@@ -157,7 +157,7 @@ def perAristas(self, o):
 						
 \end{lstlisting}
 
-El rango que se alcanza a apreciar en las líneas de código fue mas que nada porque en ambos casos de las coordenadas de nodos estamos utilizando números aleatorios, por lo que no todas las aristas que consultábamos existían, y al final solo terminaban quitando una o dos por iteración.
+El rango que se alcanza a apreciar en las líneas de código fue más que nada porque en ambos casos de las coordenadas de nodos estamos utilizando números aleatorios, por lo que no todas las aristas que consultábamos existían, y al final solo terminaban quitando una o dos por iteración.
 \\
 
 A continuación se presentan los ejemplos de grafos con los que se fueron quitando varias aristas.
@@ -181,14 +181,14 @@ A continuación se presentan los ejemplos de grafos con los que se fueron quitand
       \subfloat[Grafo p. de aristas 5]{
    \label{f:Arista5}
     \includegraphics[width=0.5\textwidth]{a5.eps}}
- \caption{Grafos para percolación de aristas. Los flujos correspondientes a cada uno fueron constantes de 8, 8, 8, 8, y solo al final 4}
+ \caption{Grafos para percolación de aristas. Los flujos correspondientes a cada uno fueron constantes de 8, 8, 8, 8, y solo al final 4. En las figuras, p. representa percolación.}
  \label{f:Percolación Aristas}
  
 \end{figure}
 \clearpage
 \section*{Percolación de nodos}
 
-En este caso, lo que queremos ver es como afectaría quitar un nodo de la vecindad de la malla, y por consecuencia, las aristas que le acompañan.  En este caso nuestra teoría es que va a ser mas tardado en estos casos conforme se van quitando los nodos, o que el flujo va a tender mas rápido a cero porque se le quitan muchos caminos de manera simultánea. Al igual que en el caso anterior, se muestra un ejemplo de pocos nodos y en este caso, si se van quitando de uno por uno en cada una de las iteraciones.
+En este caso, lo que queremos ver es como afectaría quitar un nodo de la vecindad de la malla, y por consecuencia, las aristas que le acompañan. En este caso nuestra teoría es que va a ser más tardado en estos casos conforme se van quitando los nodos, o que el flujo va a tender mas rápido a cero porque se le quitan muchos caminos de manera simultánea. Al igual que en el caso anterior, se muestra un ejemplo de pocos nodos y en este caso, si se van quitando de uno por uno en cada una de las iteraciones.
 
 \begin{lstlisting}
 #Extracto de código de clase Grafo()
@@ -232,7 +232,7 @@ def perNodos(self,o):
       \subfloat[Grafo p. de nodos 5]{
    \label{f:Nodo5}
     \includegraphics[width=0.5\textwidth]{n5.eps}}
- \caption{Grafos para percolación de nodos. Los flujos correspondientes a cada uno fueron de 10, 9, 8, 8 y 4.}
+ \caption{Grafos para percolación de nodos. Los flujos correspondientes a cada uno fueron de 10, 9, 8, 8 y 4. En las figuras, p. representa percolación.} 
  \label{f:Percolación Nodos}
  
 \end{figure}
@@ -255,6 +255,16 @@ Para esta última fase de resultados, lo que buscamos es ver los valores en cuant
 \end{figure*}
 
 \clearpage
+\section*{Conclusiones}
+
+Para este trabajo se tenía la teoría inicial de que en los valores del procesamiento de los puntos iba a tomar mucho más tiempo en encontrar el nodo final, pero por lo que se puede apreciar en las ultimas tablas, el tiempo es más grande en las de las aristas, porque el algoritmo de Ford-Fulkerson tenía muchos más caminos que recorrer, que en las que los nodos quitaban opciones. Por eso se tomó la decisión también de que debían ser mallas más pequeñas para la parte de percolación de aristas, ya que el tiempo que se tardaba en compilar la misma cantidad de vértices que cuando se realizaba la percolación a los nodos era bastante alto.
+\\
+
+Lo único es que sí se probó correcto fue que al momento de quitar los nodos era mas factible que el algoritmo no encontrara un camino completo y nos arrojara un 0, ya que los nodos alrededor del inicio o el final desaparecían y bloqueaban el camino con mas rapidez.
+
+
+
+
 \begin{thebibliography}{X}
 
 \bibitem{reporte} \textsc{Berrones Reyes, Mayra Cristina} \textit{Reporte3. Marzo 2018}

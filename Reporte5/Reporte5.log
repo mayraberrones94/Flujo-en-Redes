@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.5.23)  6 MAY 2018 21:15
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.5.23)  6 MAY 2018 22:31
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -632,18 +632,23 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 
  <./desviacion-eps-converted-to.pdf>] [10 <./desviacion2-eps-converted-to.pdf>]
 
-Overfull \hbox (32.25873pt too wide) in paragraph at lines 262--263
+Underfull \hbox (badness 10000) in paragraph at lines 260--262
+
+ []
+
+
+Overfull \hbox (32.25873pt too wide) in paragraph at lines 272--273
 []\T1/cmr/m/sc/10 Schaeffer, Eli-sa \T1/cmr/m/it/10 https://elisa.dyndns-web.co
 m/teaching/mat/discretas/md.html
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 264--265
+Underfull \hbox (badness 10000) in paragraph at lines 274--275
 []\T1/cmr/m/sc/10 Algoritmo Ford-Fulkerson \T1/cmr/m/it/10 Flu-jos Má-xi-mos.
  []
 
 
-Overfull \hbox (65.60619pt too wide) in paragraph at lines 265--266
+Overfull \hbox (65.60619pt too wide) in paragraph at lines 275--276
 []\T1/cmr/m/sc/10 Distancias Man-hat-tan \T1/cmr/m/it/10 Wi-ki-tio-nary. https:
 //en.wiktionary.org/wikiManhattan.distance.
  []
@@ -677,7 +682,7 @@ al/texlive/2017/texmf-dist/fonts/type1/public/cm-super/sfcc1440.pfb></usr/local
 exlive/2017/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb></usr/local/tex
 live/2017/texmf-dist/fonts/type1/public/cm-super/sfti1000.pfb></usr/local/texli
 ve/2017/texmf-dist/fonts/type1/public/cm-super/sftt0900.pfb>
-Output written on Reporte5.pdf (12 pages, 250520 bytes).
+Output written on Reporte5.pdf (12 pages, 251647 bytes).
 PDF statistics:
  134 PDF objects out of 1000 (max. 8388607)
  91 compressed objects within 1 object stream
