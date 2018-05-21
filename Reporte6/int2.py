@@ -35,7 +35,7 @@ class Grafo:
 						self.aristas[(u,v)] = self.aristas[(v, u)] = int(sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2) * 10)
 						self.A.append((x1, y1, x2, y2, u, v))
 						self.pesos.append(((sqrt((x2 - x1) ** 2 + (y2 - y1 )** 2)*10), (x1+x2)/2, (y1+y2)/2))
-		print (self.aristas)
+		#print (self.aristas)
 
 	def merge(self):
 		while len(self.aux) > 2:
@@ -50,12 +50,12 @@ class Grafo:
 							self.sec[z] = str(self.sec[z]) +"#"+ str(self.sec[w])
 							self.aux.remove(w)
 
-							print (self.aux)
-							print (z, w)
+							#print (self.aux)
+							#print (z, w)
 							for i in range(0, len(self.nodos) - 1):
 								if w is self.nodos[i][2]:
 									self.nodos.pop(i)
-									print(self.nodos)
+									#print(self.nodos)
 
 							for i in range(0, self.n):
 								if(i, w) in self.aristas:
@@ -70,15 +70,17 @@ class Grafo:
 								#self.aristas[(i, z)] = self.aristas[(w, i)]
 										self.aristas[(z, i)] = (list(self.aristas.values())[list(self.aristas.keys()).index((w, i))]) 
 						
-									print('estoy aqui')
-									print (w,i)
-									print(list(self.aristas.values())[list(self.aristas.keys()).index((i, w))])	
+									#print('estoy aqui')
+									#print (w,i)
+									#print(list(self.aristas.values())[list(self.aristas.keys()).index((i, w))])	
 
-		print(self.nodos)
-		print(self.sec)
-		print (self.aristas)
+		#print(self.nodos)
+		#print(self.sec)
+		#print (self.aristas)
 		self.final = (list(self.aristas.values())[list(self.aristas.keys()).index((0, self.n -1))])	
-		print(self.final)
+		#print(self.final)
+		with open("Final.txt", 'at') as salida:
+			print(self.final, file = salida)
 					
 	def camino(self): #construccion de camino aumentante
 		cola = [self.s]
@@ -104,8 +106,7 @@ class Grafo:
 
 		with open ("Ford.txt", 'at') as salida:
 			self.s = self.aux[0]
-			self.t = self.au
-			[self.n - 1]
+			self.t = self.aux[self.n - 1]
 
 			if self.s == self.t:
 				return 0; #O puedes poner mensaje de que start and target son iguales.
@@ -151,8 +152,11 @@ class Grafo:
 				print('set output "nodos.png"', file = salida)
 			print('set size square', file = salida)
 			print('set key off', file = salida)
-			print ('set xrange [-.5:1.5]', file = salida)
+			print ('set xrange [-.3:1.3]', file = salida)
 			print ('set yrange [-.1:1.1]', file = salida)
+			print('unset border',file = salida)
+			print('unset xtics', file = salida)
+			print('unset ytics', file = salida)
 			for n in range(len(self.nodos)):
 				print('set label', "   ' " , int(self.nodos[n][2]), "   ' ", 'at', self.nodos[n][0], ",", self.nodos[n][1],  file = salida )
 			
@@ -174,9 +178,11 @@ class Grafo:
 				print('set output "nodos.png"', file = salida)
 			print('set size square', file = salida)
 			print('set key off', file = salida)
-			print ('set xrange [-.5:1.5]', file = salida)
+			print ('set xrange [-.3:1.3]', file = salida)
 			print ('set yrange [-.1:1.1]', file = salida)
-
+			print('unset border',file = salida)
+			print('unset xtics', file = salida)
+			print('unset ytics', file = salida)
 			print('set label', " ' " , self.sec[0], "   ' ", 'at', self.nodos[0][0], ",", self.nodos[0][1],  file = salida)
 			print('set label', " ' " , self.sec[self.n - 1], "   ' ", 'at', self.nodos[1][0], ",", self.nodos[1][1],  file = salida )
 			print('set arrow', 1, 'from', self.nodos[0][0], ',', self.nodos[0][1], 'to', self.nodos[len(self.nodos) - 1][0], ',', self.nodos[len(self.nodos) - 1][1], 'nohead filled lw 1', file = salida)
@@ -186,11 +192,12 @@ class Grafo:
 			print('quit()', file =  salida)
 
 p = Grafo()
-p.puntos(5)
+
+p.puntos(100)
 p.imprimir()
 p.conect(0.4)
 p.grafica()
-print(p.ford_fulkerson())
+#print(p.ford_fulkerson())
 p.merge()
 p.imprimir2(2)
 p.grafica2(2)

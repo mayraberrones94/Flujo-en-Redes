@@ -138,6 +138,8 @@ class Grafo:
 			print('set key off', file = salida)
 			print('set xrange [-1:', self.k , ']', file = salida)
 			print('set yrange [-1:', self.k , ']', file = salida)
+			print('unset xtics', file = salida)
+			print('unset ytics', file = salida)
 			id = 1
 			for z in self.aristas:
 				x1 = z[0][0]
