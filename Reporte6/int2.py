@@ -30,10 +30,12 @@ class Grafo:
 	def conect (self, prob):
 		for (x1, y1, u) in self.nodos:
 			for(x2, y2, v) in self.nodos:
-				if random() < prob:
-					self.aristas[(u,v)] = self.aristas[(v, u)] = int(sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2) * 10)
-					self.A.append((x1, y1, x2, y2, u, v))
-					self.pesos.append((sqrt((x2 - x1) ** 2 + (y2 - y1 )** 2)*10, (x1+x2)/2, (y1+y2)/2))
+				if u is not v:
+					if random() < prob:
+						self.aristas[(u,v)] = self.aristas[(v, u)] = int(sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2) * 10)
+						self.A.append((x1, y1, x2, y2, u, v))
+						self.pesos.append(((sqrt((x2 - x1) ** 2 + (y2 - y1 )** 2)*10), (x1+x2)/2, (y1+y2)/2))
+		print (self.aristas)
 
 	def merge(self):
 		while len(self.aux) > 2:
@@ -42,20 +44,89 @@ class Grafo:
 			if w is not z:
 				if w is not self.nodos[0][2] and w is not self.nodos[len(self.nodos) - 1][2]:
 					if w in self.aux:
-						self.sec[z] = str(self.sec[z]) +"#"+ str(self.sec[w])
-						self.aux.remove(w)
+						if (z, w) in self.aristas:
+							del self.aristas[(z, w)]
+							del self.aristas[(w, z)]
+							self.sec[z] = str(self.sec[z]) +"#"+ str(self.sec[w])
+							self.aux.remove(w)
+
+							print (self.aux)
+							print (z, w)
+							for i in range(0, len(self.nodos) - 1):
+								if w is self.nodos[i][2]:
+									self.nodos.pop(i)
+									print(self.nodos)
+
+							for i in range(0, self.n):
+								if(i, w) in self.aristas:
+									if(z, i) in self.aristas:
+										self.aristas[(i, z)] = (list(self.aristas.values())[list(self.aristas.keys()).index((i, z))]) + (list(self.aristas.values())[list(self.aristas.keys()).index((i, w))])
+								#self.aristas[(i,z)] = self.aristas[(i, z)].value() + self.aristas[(w, i)].value()
+								#self.aristas[(z, i)] =self.aristas[(z, i)].value() + self.aristas[(w, i)].value()
+										self.aristas[(z, i)] = (list(self.aristas.values())[list(self.aristas.keys()).index((z, i))]) + (list(self.aristas.values())[list(self.aristas.keys()).index((w, i))])
+									else:
+										self.aristas[(i, z)] = (list(self.aristas.values())[list(self.aristas.keys()).index((w, i))]) 
+								
+								#self.aristas[(i, z)] = self.aristas[(w, i)]
+										self.aristas[(z, i)] = (list(self.aristas.values())[list(self.aristas.keys()).index((w, i))]) 
 						
-						print (self.aux)
-						print (z, w)
-						for i in range(0, len(self.nodos) - 1):
-							if w is self.nodos[i][2]:
-								self.nodos.pop(i)
-								print(self.nodos)	
+									print('estoy aqui')
+									print (w,i)
+									print(list(self.aristas.values())[list(self.aristas.keys()).index((i, w))])	
 
 		print(self.nodos)
 		print(self.sec)
+		print (self.aristas)
+		self.final = (list(self.aristas.values())[list(self.aristas.keys()).index((0, self.n -1))])	
+		print(self.final)
 					
+	def camino(self): #construccion de camino aumentante
+		cola = [self.s]
+		usados = set()
+		camino = dict()
+		while len(cola) > 0:
+			u = cola.pop(0)
+			usados.add(u)
+			for (w, v) in self.aristas:
+				if w == u and v not in cola and v not in usados:
+					actual = self.f.get((u, v), 0)
+					dif = self.aristas[(u, v)] - actual
+					if dif > 0:
+						cola.append(v)
+						camino[v] = (u, dif)
+		if self.t in usados:
+			return camino
+		else: # no se alcanzo
+			return None	
 
+
+	def ford_fulkerson(self): 
+
+		with open ("Ford.txt", 'at') as salida:
+			self.s = self.aux[0]
+			self.t = self.au
+			[self.n - 1]
+
+			if self.s == self.t:
+				return 0; #O puedes poner mensaje de que start and target son iguales.
+			maximo = 0
+			self.f = dict()
+			while True:
+				aum = self.camino()
+				if aum is None:
+					break #ya no hay
+				incr = min(aum.values(), key = (lambda k: k[1]))[1]
+				u = self.t
+				while u in aum:
+					v = aum [u][0]
+					actual = self.f.get((v, u), 0) #cero si no hay
+					inverso = self.f.get((u, v), 0)
+					self.f[(v, u)] = actual + incr
+					self.f[(u, v)] = inverso - incr
+					u = v
+				maximo += incr
+			print(maximo, file = salida)
+			return maximo
 
 	def imprimir(self):
 		with open("grafo.dat", 'w') as salida:
@@ -108,20 +179,18 @@ class Grafo:
 
 			print('set label', " ' " , self.sec[0], "   ' ", 'at', self.nodos[0][0], ",", self.nodos[0][1],  file = salida)
 			print('set label', " ' " , self.sec[self.n - 1], "   ' ", 'at', self.nodos[1][0], ",", self.nodos[1][1],  file = salida )
+			print('set arrow', 1, 'from', self.nodos[0][0], ',', self.nodos[0][1], 'to', self.nodos[len(self.nodos) - 1][0], ',', self.nodos[len(self.nodos) - 1][1], 'nohead filled lw 1', file = salida)
+			print('set label', " ' ", int(self.final), " ' ", 'at', (0.5), ',', (0.44), file = salida)
 			
-			id = 1
-			for i in range(len(self.A)):
-				print('set arrow', id, 'from', self.A[i][0], ',', self.A[i][1], 'to', self.A[i][2], ',', self.A[i][3], 'nohead filled lw 1', file = salida)
-				#print('set label', " ' ", int(self.pesos[i][0]), " ' ", 'at', self.pesos[i][1], ',', self.pesos[i][2], file = salida)
-				id += 1
 			print('plot "grafo'+str(num)+'.dat" using 1:2:3 with points pt 7 lc var ps 2 ', file = salida)
 			print('quit()', file =  salida)
 
 p = Grafo()
-p.puntos(10)
+p.puntos(5)
 p.imprimir()
-p.conect(0.2)
+p.conect(0.4)
 p.grafica()
+print(p.ford_fulkerson())
 p.merge()
 p.imprimir2(2)
 p.grafica2(2)
